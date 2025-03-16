@@ -6,6 +6,8 @@ import {
   StyleSheet,
   FlatList,
   SafeAreaView,
+  StatusBar,
+  Platform,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
@@ -50,9 +52,15 @@ const StockList = () => {
 
   return (
     <SafeAreaView style={styles.container}>
+      <StatusBar
+        backgroundColor="#FFFFFF"
+        barStyle="dark-content"
+      />
       {/* 頂部列 */}
       <View style={styles.header}>
-        <TouchableOpacity style={styles.menuButton}>
+        <TouchableOpacity
+          style={styles.menuButton}
+        >
           <Icon name="menu" size={28} color="#333333" />
         </TouchableOpacity>
         <Text style={styles.headerTitle}>股票列表</Text>
@@ -77,14 +85,16 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#FFFFFF',
+    paddingTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0,
   },
   header: {
-    height: 60,
+    height: 56, // Material Design 規範的標準高度
     flexDirection: 'row',
     alignItems: 'center',
     paddingHorizontal: 16,
     borderBottomWidth: 1,
     borderBottomColor: '#E0E0E0',
+    backgroundColor: '#FFFFFF',
   },
   menuButton: {
     padding: 8,
@@ -92,8 +102,9 @@ const styles = StyleSheet.create({
   },
   headerTitle: {
     fontSize: 20,
-    fontWeight: 'bold',
+    fontWeight: '500', // Material Design 建議的字重
     marginLeft: 16,
+    color: '#333333',
   },
   content: {
     flex: 1,
