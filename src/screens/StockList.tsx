@@ -7,7 +7,7 @@ import {
   FlatList,
   SafeAreaView,
 } from 'react-native';
-import Icon from 'react-native-vector-icons/Feather';
+import Icon from 'react-native-vector-icons/MaterialIcons';
 
 // 模擬股票數據
 const stockData = [
@@ -52,11 +52,8 @@ const StockList = () => {
     <SafeAreaView style={styles.container}>
       {/* 頂部列 */}
       <View style={styles.header}>
-        <TouchableOpacity
-          style={styles.menuButton}
-          // onPress={() => navigation.navigate('Settings')}
-        >
-          <Icon name="menu" size={24} color="#000" />
+        <TouchableOpacity style={styles.menuButton}>
+          <Icon name="menu" size={28} color="#333333" />
         </TouchableOpacity>
         <Text style={styles.headerTitle}>股票列表</Text>
       </View>
@@ -91,6 +88,7 @@ const styles = StyleSheet.create({
   },
   menuButton: {
     padding: 8,
+    marginLeft: -4,
   },
   headerTitle: {
     fontSize: 20,
