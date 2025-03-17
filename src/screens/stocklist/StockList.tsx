@@ -15,7 +15,7 @@ import StockTypeFilter, { StockType, getStockType } from '../../components/Stock
 
 const StockList = () => {
   const [stocks, setStocks] = useState<StockData[]>([]);
-  const [selectedType, setSelectedType] = useState<StockType>('全部');
+  const [selectedType, setSelectedType] = useState<StockType>('個股');
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -29,7 +29,6 @@ const StockList = () => {
   };
 
   const filteredStocks = React.useMemo(() => {
-    if (selectedType === '全部') {return stocks;}
     return stocks.filter(stock => getStockType(stock.symbol) === selectedType);
   }, [stocks, selectedType]);
 

@@ -10,7 +10,6 @@ import {
 
 // 先定義常數
 const STOCK_TYPES = [
-  '全部',
   '個股',
   'ETF',
   '槓桿ETF',
@@ -34,9 +33,9 @@ interface StockTypeFilterState {
 }
 
 // 定義正則表達式映射
-const STOCK_PATTERNS: Record<Exclude<StockType, '全部' | '其他'>, RegExp> = {
-  個股: /^\d{4}$/,
-  ETF: /^\d{5}$/,
+const STOCK_PATTERNS: Record<Exclude<StockType, '其他'>, RegExp> = {
+  ETF: /^00\d{2,3}$/,
+  個股: /^[1-9]\d{3}$/,
   槓桿ETF: /^\d{5}[LR]$/,
   ETN: /^\d{6}$/,
   公司債: /^\d{5}B$/,
