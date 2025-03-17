@@ -17,7 +17,8 @@ export interface StockData {
     tradeVolume: string; // 成交股數
     tradeValue: string;  // 成交金額
     transactions: string; // 成交筆數
-    reference: string;  // 參考價
+    reference: string;   // 參考價
+    monthlyAverage: string;  // 月均價
 }
 
 // 示例資料
