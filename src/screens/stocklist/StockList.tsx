@@ -4,8 +4,6 @@ import {
   StyleSheet,
   FlatList,
   SafeAreaView,
-  StatusBar,
-  Platform,
 } from 'react-native';
 import StockItem from './StockItem';
 import { StockData } from './StockData';
@@ -34,9 +32,9 @@ const StockList = () => {
 
   return (
     <SafeAreaView style={styles.container}>
-      <Header 
-        title="股票列表" 
-        leftComponent={
+      <Header
+        title="股票列表"
+        rightComponent={
           <StockTypeFilter
             selectedType={selectedType}
             onTypeSelect={setSelectedType}
