@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useCallback } from 'react';
+import React, { useState, useCallback } from 'react';
 import {
   View,
   StyleSheet,
@@ -6,10 +6,10 @@ import {
   SafeAreaView,
 } from 'react-native';
 import { useFocusEffect } from '@react-navigation/native';
-import Header from '../../components/Header';
-import StockItem from '../stocklist/StockItem';
-import watchListService from '../../services/WatchListService';
-import { StockData } from '../stocklist/StockData';
+import Header from '../components/Header.tsx';
+import StockItem from '../components/StockItem.tsx';
+import watchListService from '../services/WatchListService.ts';
+import { StockData } from '../components/StockData.ts';
 
 const WatchList = () => {
   const [watchlist, setWatchlist] = useState<StockData[]>([]);
@@ -51,7 +51,8 @@ const styles = StyleSheet.create({
   },
   content: {
     flex: 1,
+    paddingTop: 16,
   },
 });
 
-export default WatchList; 
+export default WatchList;

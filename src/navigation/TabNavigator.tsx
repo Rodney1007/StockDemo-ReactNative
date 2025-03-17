@@ -4,9 +4,9 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { NavigationContainer } from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
-import WatchList from '../screens/watchlist/WatchList';
-import StockList from '../screens/stocklist/StockList';
-import News from '../screens/news/News';
+import WatchList from '../screens/WatchList.tsx';
+import StockList from '../screens/StockList.tsx';
+import News from '../screens/News.tsx';
 
 type TabIconProps = {
   color: string;
@@ -66,4 +66,4 @@ const TabNavigator = () => {
   );
 };
 
-export default TabNavigator; 
+export default TabNavigator;

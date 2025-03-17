@@ -5,10 +5,10 @@ import {
   TouchableOpacity,
   StyleSheet,
 } from 'react-native';
-import { StockData } from './StockData';
-import FontUtils from '../../utils/FontUtils';
-import ConfirmDialog from '../../components/ConfirmDialog';
-import watchListService from '../../services/WatchListService';
+import { StockData } from './StockData.ts';
+import FontUtils from '../utils/FontUtils.ts';
+import ConfirmDialog from './ConfirmDialog.tsx';
+import watchListService from '../services/WatchListService.ts';
 
 interface StockItemProps {
   stock: StockData;

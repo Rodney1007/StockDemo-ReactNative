@@ -5,11 +5,11 @@ import {
   FlatList,
   SafeAreaView,
 } from 'react-native';
-import StockItem from './StockItem';
-import { StockData } from './StockData';
-import Header from '../../components/Header';
-import stockService from '../../services/StockService';
-import StockTypeFilter, { StockType, getStockType } from '../../components/StockTypeFilter';
+import StockItem from '../components/StockItem.tsx';
+import { StockData } from '../components/StockData.ts';
+import Header from '../components/Header.tsx';
+import stockService from '../services/StockService.ts';
+import StockTypeFilter, { StockType, getStockType } from '../components/StockTypeFilter.tsx';
 
 const StockList = () => {
   const [stocks, setStocks] = useState<StockData[]>([]);
@@ -67,6 +67,7 @@ const styles = StyleSheet.create({
   },
   content: {
     flex: 1,
+    paddingTop: 16,
   },
 });
 
