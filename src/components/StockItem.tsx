@@ -4,50 +4,59 @@ import {
   Text,
   TouchableOpacity,
   StyleSheet,
+  Platform,
 } from 'react-native';
 
-interface StockItemProps {
+type StockItemProps = {
   symbol: string;
   name: string;
   price: string;
   change: string;
-}
+};
 
-const StockItem = ({ symbol, name, price, change }: StockItemProps) => {
-  return (
-    <TouchableOpacity style={styles.stockItem}>
+const StockItem = ({ symbol, name, price, change }: StockItemProps) => (
+  <TouchableOpacity style={styles.container}>
+    <View style={styles.card}>
       <View style={styles.stockInfo}>
-        <Text style={styles.stockSymbol}>{symbol}</Text>
-        <Text style={styles.stockName}>{name}</Text>
+        <Text style={styles.symbol}>{symbol}</Text>
+        <Text style={styles.name}>{name}</Text>
       </View>
       <View style={styles.priceInfo}>
-        <Text style={styles.stockPrice}>${price}</Text>
+        <Text style={styles.price}>${price}</Text>
         <Text style={[
-          styles.priceChange,
+          styles.change,
           { color: change.startsWith('+') ? '#4CAF50' : '#FF5252' }
         ]}>
           {change}%
         </Text>
       </View>
-    </TouchableOpacity>
-  );
-};
+    </View>
+  </TouchableOpacity>
+);
 
 const styles = StyleSheet.create({
-  stockItem: {
+  container: {
+    paddingHorizontal: 12,
+    paddingVertical: 4,
+  },
+  card: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    padding: 16,
     backgroundColor: '#FFFFFF',
+    borderRadius: 12,
+    padding: 16,
+    borderWidth: 1,
+    borderColor: '#E0E0E0',
   },
   stockInfo: {
     flex: 1,
   },
-  stockSymbol: {
+  symbol: {
     fontSize: 16,
-    fontWeight: 'bold',
+    fontWeight: '600',
+    color: '#333333',
   },
-  stockName: {
+  name: {
     fontSize: 14,
     color: '#666666',
     marginTop: 4,
@@ -55,11 +64,12 @@ const styles = StyleSheet.create({
   priceInfo: {
     alignItems: 'flex-end',
   },
-  stockPrice: {
+  price: {
     fontSize: 16,
-    fontWeight: 'bold',
+    fontWeight: '600',
+    color: '#333333',
   },
-  priceChange: {
+  change: {
     fontSize: 14,
     marginTop: 4,
   },

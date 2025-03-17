@@ -113,10 +113,11 @@ const styles = StyleSheet.create({
   },
   content: {
     flex: 1,
+    backgroundColor: '#F8F9FA',
+    paddingTop: 12,  // 添加頂部間距
   },
   separator: {
-    height: 1,
-    backgroundColor: '#E0E0E0',
+    height: 0,
   },
 });
 
