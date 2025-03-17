@@ -12,7 +12,8 @@ export interface StockData {
     previousClose: string; // 昨收價
     marketCap: string;   // 市值
     pe: string;          // 本益比
-    eps: string;         // 每股盈餘
+    pbr: string;        // 股價淨值比
+    dividendYield: string;  // 殖利率
     tradeVolume: string; // 成交股數
     tradeValue: string;  // 成交金額
     transactions: string; // 成交筆數
