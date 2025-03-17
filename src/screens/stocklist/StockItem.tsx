@@ -8,6 +8,16 @@ import {
 import { StockData } from './StockData';
 
 const StockItem = ({ stock }: { stock: StockData }) => {
+  // 判斷價格變動顏色的工具函數
+  const getPriceChangeColor = (value: string, reference: string) => {
+    const numValue = parseFloat(value);
+    const numReference = parseFloat(reference);
+    
+    if (numValue > numReference) return '#FF5252';  // 高於參考價為紅色
+    if (numValue < numReference) return '#4CAF50';  // 低於參考價為綠色
+    return '#333333';  // 等於參考價為預設黑色
+  };
+
   // 處理漲跌幅的正負號
   const changePercentWithSign = stock.change.startsWith('+')
     ? `+${stock.changePercent}`
@@ -24,20 +34,25 @@ const StockItem = ({ stock }: { stock: StockData }) => {
 
         {/* 收盤價區塊 */}
         <View style={styles.priceSection}>
-          <Text style={styles.closePrice}>{stock.price}</Text>
+          <Text style={[
+            styles.closePrice,
+            { color: getPriceChangeColor(stock.price, stock.reference) }
+          ]}>
+            {stock.price}
+          </Text>
         </View>
 
         {/* 漲跌區塊 */}
         <View style={styles.changeSection}>
           <Text style={[
             styles.change,
-            { color: stock.change.startsWith('+') ? '#4CAF50' : '#FF5252' }
+            { color: getPriceChangeColor(stock.price, stock.reference) }
           ]}>
             {stock.change}
           </Text>
           <Text style={[
             styles.changePercent,
-            { color: stock.change.startsWith('+') ? '#4CAF50' : '#FF5252' }
+            { color: getPriceChangeColor(stock.price, stock.reference) }
           ]}>
             {changePercentWithSign}%
           </Text>
@@ -47,7 +62,12 @@ const StockItem = ({ stock }: { stock: StockData }) => {
         <View style={styles.infoSection}>
           <Text style={styles.infoRow}>
             <Text style={styles.label}>開盤：</Text>
-            <Text style={styles.value}>{stock.open}</Text>
+            <Text style={[
+              styles.value,
+              { color: getPriceChangeColor(stock.open, stock.reference) }
+            ]}>
+              {stock.open}
+            </Text>
           </Text>
           <Text style={styles.infoRow}>
             <Text style={styles.label}>參考：</Text>
@@ -59,11 +79,21 @@ const StockItem = ({ stock }: { stock: StockData }) => {
         <View style={styles.infoSection}>
           <Text style={styles.infoRow}>
             <Text style={styles.label}>最高：</Text>
-            <Text style={styles.value}>{stock.high}</Text>
+            <Text style={[
+              styles.value,
+              { color: getPriceChangeColor(stock.high, stock.reference) }
+            ]}>
+              {stock.high}
+            </Text>
           </Text>
           <Text style={styles.infoRow}>
             <Text style={styles.label}>最低：</Text>
-            <Text style={styles.value}>{stock.low}</Text>
+            <Text style={[
+              styles.value,
+              { color: getPriceChangeColor(stock.low, stock.reference) }
+            ]}>
+              {stock.low}
+            </Text>
           </Text>
         </View>
       </View>
