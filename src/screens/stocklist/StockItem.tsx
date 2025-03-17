@@ -12,9 +12,9 @@ const StockItem = ({ stock }: { stock: StockData }) => {
   const getPriceChangeColor = (value: string, reference: string) => {
     const numValue = parseFloat(value);
     const numReference = parseFloat(reference);
-    
-    if (numValue > numReference) return '#FF5252';  // 高於參考價為紅色
-    if (numValue < numReference) return '#4CAF50';  // 低於參考價為綠色
+
+    if (numValue > numReference) {return '#FF5252';}  // 高於參考價為紅色
+    if (numValue < numReference) {return '#4CAF50';}  // 低於參考價為綠色
     return '#FFFFFF';  // 等於參考價為白色
   };
 
@@ -36,7 +36,7 @@ const StockItem = ({ stock }: { stock: StockData }) => {
         <View style={styles.priceSection}>
           <Text style={[
             styles.closePrice,
-            { color: getPriceChangeColor(stock.price, stock.open) }
+            { color: getPriceChangeColor(stock.price, stock.open) },
           ]}>
             {stock.price}
           </Text>
@@ -46,13 +46,13 @@ const StockItem = ({ stock }: { stock: StockData }) => {
         <View style={styles.changeSection}>
           <Text style={[
             styles.change,
-            { color: getPriceChangeColor(stock.price, stock.reference) }
+            { color: getPriceChangeColor(stock.price, stock.reference) },
           ]}>
             {stock.change}
           </Text>
           <Text style={[
             styles.changePercent,
-            { color: getPriceChangeColor(stock.price, stock.reference) }
+            { color: getPriceChangeColor(stock.price, stock.reference) },
           ]}>
             {changePercentWithSign}%
           </Text>
@@ -64,7 +64,7 @@ const StockItem = ({ stock }: { stock: StockData }) => {
             <Text style={styles.label}>開盤：</Text>
             <Text style={[
               styles.value,
-              { color: getPriceChangeColor(stock.open, stock.reference) }
+              { color: getPriceChangeColor(stock.open, stock.reference) },
             ]}>
               {stock.open}
             </Text>
@@ -81,7 +81,7 @@ const StockItem = ({ stock }: { stock: StockData }) => {
             <Text style={styles.label}>最高：</Text>
             <Text style={[
               styles.value,
-              { color: getPriceChangeColor(stock.high, stock.reference) }
+              { color: getPriceChangeColor(stock.high, stock.reference) },
             ]}>
               {stock.high}
             </Text>
@@ -90,7 +90,7 @@ const StockItem = ({ stock }: { stock: StockData }) => {
             <Text style={styles.label}>最低：</Text>
             <Text style={[
               styles.value,
-              { color: getPriceChangeColor(stock.low, stock.reference) }
+              { color: getPriceChangeColor(stock.low, stock.reference) },
             ]}>
               {stock.low}
             </Text>

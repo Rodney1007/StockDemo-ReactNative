@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   View,
   StyleSheet,
@@ -8,10 +8,23 @@ import {
   Platform,
 } from 'react-native';
 import StockItem from './StockItem';
-import { StockData, stockData } from './StockData';
+import { StockData } from './StockData';
 import Header from '../../components/Header';
+import stockService from '../../services/StockService';
 
 const StockList = () => {
+  const [stocks, setStocks] = useState<StockData[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const loadStockData = async () => {
+      const data = await stockService.fetchStockData();
+      setStocks(data);
+      setLoading(false);
+    };
+
+    loadStockData();
+  }, []);
 
   const renderStockItem = ({ item }: { item: StockData }) => (
     <StockItem stock={item} />
@@ -22,10 +35,18 @@ const StockList = () => {
       <Header title="股票列表" />
       <View style={styles.content}>
         <FlatList
-          data={stockData}
+          data={stocks}
           renderItem={renderStockItem}
           keyExtractor={item => item.id}
           ItemSeparatorComponent={() => <View style={styles.separator} />}
+          refreshing={loading}
+          onRefresh={() => {
+            setLoading(true);
+            stockService.fetchStockData().then(data => {
+              setStocks(data);
+              setLoading(false);
+            });
+          }}
         />
       </View>
     </SafeAreaView>
