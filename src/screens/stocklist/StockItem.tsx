@@ -5,72 +5,138 @@ import {
   TouchableOpacity,
   StyleSheet,
 } from 'react-native';
+import { StockData } from './StockData';
 
-type StockItemProps = {
-  symbol: string;
-  name: string;
-  price: string;
-  change: string;
+const StockItem = ({ stock }: { stock: StockData }) => {
+  return (
+    <TouchableOpacity style={styles.stockItem}>
+      {/* 第一行：股票代號、股票名稱 */}
+      <View style={styles.firstRow}>
+        <Text style={styles.symbol}>{stock.symbol}</Text>
+        <Text style={styles.name}>{stock.name}</Text>
+      </View>
+
+      {/* 第二行：開盤價、收盤價 */}
+      <View style={styles.row}>
+        <View style={styles.priceItem}>
+          <Text style={styles.label}>開盤</Text>
+          <Text style={styles.price}>{stock.open}</Text>
+        </View>
+        <View style={styles.priceItem}>
+          <Text style={styles.label}>收盤</Text>
+          <Text style={styles.price}>{stock.price}</Text>
+        </View>
+      </View>
+
+      {/* 第三行：最高價、最低價 */}
+      <View style={styles.row}>
+        <View style={styles.priceItem}>
+          <Text style={styles.label}>最高</Text>
+          <Text style={styles.price}>{stock.high}</Text>
+        </View>
+        <View style={styles.priceItem}>
+          <Text style={styles.label}>最低</Text>
+          <Text style={styles.price}>{stock.low}</Text>
+        </View>
+      </View>
+
+      {/* 第四行：漲跌價差、漲跌價差百分比 */}
+      <View style={styles.row}>
+        <View style={styles.changeInfo}>
+          <Text style={styles.label}>漲跌價差</Text>
+          <Text style={[
+            styles.change,
+            { color: stock.change.startsWith('+') ? '#4CAF50' : '#FF5252' }
+          ]}>
+            {stock.change}
+          </Text>
+        </View>
+        <View style={styles.changeInfo}>
+          <Text style={styles.label}>漲跌百分比</Text>
+          <Text style={[
+            styles.change,
+            { color: stock.change.startsWith('+') ? '#4CAF50' : '#FF5252' }
+          ]}>
+            {stock.changePercent}%
+          </Text>
+        </View>
+      </View>
+
+      {/* 第五行：成交筆數、成交股數、成交金額 */}
+      <View style={styles.row}>
+        <View style={styles.tradeItem}>
+          <Text style={styles.label}>成交筆數</Text>
+          <Text style={styles.tradeValue}>{stock.transactions}</Text>
+        </View>
+        <View style={styles.tradeItem}>
+          <Text style={styles.label}>成交股數</Text>
+          <Text style={styles.tradeValue}>{stock.tradeVolume}</Text>
+        </View>
+        <View style={styles.tradeItem}>
+          <Text style={styles.label}>成交金額</Text>
+          <Text style={styles.tradeValue}>{stock.tradeValue}</Text>
+        </View>
+      </View>
+    </TouchableOpacity>
+  );
 };
 
-const StockItem = ({ symbol, name, price, change }: StockItemProps) => (
-  <TouchableOpacity style={styles.container}>
-    <View style={styles.card}>
-      <View style={styles.stockInfo}>
-        <Text style={styles.symbol}>{symbol}</Text>
-        <Text style={styles.name}>{name}</Text>
-      </View>
-      <View style={styles.priceInfo}>
-        <Text style={styles.price}>${price}</Text>
-        <Text style={[
-          styles.change,
-          { color: change.startsWith('+') ? '#4CAF50' : '#FF5252' }
-        ]}>
-          {change}%
-        </Text>
-      </View>
-    </View>
-  </TouchableOpacity>
-);
-
 const styles = StyleSheet.create({
-  container: {
-    paddingHorizontal: 12,
-    paddingVertical: 4,
-  },
-  card: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
+  stockItem: {
+    padding: 16,
     backgroundColor: '#FFFFFF',
     borderRadius: 12,
-    padding: 16,
     borderWidth: 1,
     borderColor: '#E0E0E0',
+    margin: 8,
   },
-  stockInfo: {
-    flex: 1,
+  firstRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: 12,
+  },
+  row: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    marginTop: 10,
   },
   symbol: {
     fontSize: 16,
-    fontWeight: '600',
-    color: '#333333',
+    fontWeight: 'bold',
+    marginRight: 12,
   },
   name: {
-    fontSize: 14,
-    color: '#666666',
-    marginTop: 4,
+    fontSize: 16,
+    color: '#333333',
   },
-  priceInfo: {
-    alignItems: 'flex-end',
+  priceItem: {
+    alignItems: 'center',
+    minWidth: '30%',
+  },
+  changeInfo: {
+    alignItems: 'center',
+    minWidth: '30%',
+  },
+  tradeItem: {
+    alignItems: 'center',
+    flex: 1,
+  },
+  label: {
+    fontSize: 12,
+    color: '#666666',
+    marginBottom: 4,
   },
   price: {
-    fontSize: 16,
-    fontWeight: '600',
+    fontSize: 14,
     color: '#333333',
   },
   change: {
     fontSize: 14,
-    marginTop: 4,
+    fontWeight: '500',
+  },
+  tradeValue: {
+    fontSize: 14,
+    color: '#333333',
   },
 });
 
