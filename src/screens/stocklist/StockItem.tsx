@@ -8,73 +8,63 @@ import {
 import { StockData } from './StockData';
 
 const StockItem = ({ stock }: { stock: StockData }) => {
+  // 處理漲跌幅的正負號
+  const changePercentWithSign = stock.change.startsWith('+')
+    ? `+${stock.changePercent}`
+    : `-${stock.changePercent}`;
+
   return (
     <TouchableOpacity style={styles.stockItem}>
-      {/* 第一行：股票代號、股票名稱 */}
-      <View style={styles.firstRow}>
-        <Text style={styles.symbol}>{stock.symbol}</Text>
-        <Text style={styles.name}>{stock.name}</Text>
-      </View>
+      <View style={styles.container}>
+        {/* 左側區塊：股票名稱和代號 */}
+        <View style={styles.leftSection}>
+          <Text style={styles.name}>{stock.name}</Text>
+          <Text style={styles.symbol}>{stock.symbol}</Text>
+        </View>
 
-      {/* 第二行：開盤價、收盤價 */}
-      <View style={styles.row}>
-        <View style={styles.priceItem}>
-          <Text style={styles.label}>開盤</Text>
-          <Text style={styles.price}>{stock.open}</Text>
+        {/* 收盤價區塊 */}
+        <View style={styles.priceSection}>
+          <Text style={styles.closePrice}>{stock.price}</Text>
         </View>
-        <View style={styles.priceItem}>
-          <Text style={styles.label}>收盤</Text>
-          <Text style={styles.price}>{stock.price}</Text>
-        </View>
-      </View>
 
-      {/* 第三行：最高價、最低價 */}
-      <View style={styles.row}>
-        <View style={styles.priceItem}>
-          <Text style={styles.label}>最高</Text>
-          <Text style={styles.price}>{stock.high}</Text>
-        </View>
-        <View style={styles.priceItem}>
-          <Text style={styles.label}>最低</Text>
-          <Text style={styles.price}>{stock.low}</Text>
-        </View>
-      </View>
-
-      {/* 第四行：漲跌價差、漲跌價差百分比 */}
-      <View style={styles.row}>
-        <View style={styles.changeInfo}>
-          <Text style={styles.label}>漲跌價差</Text>
+        {/* 漲跌區塊 */}
+        <View style={styles.changeSection}>
           <Text style={[
             styles.change,
             { color: stock.change.startsWith('+') ? '#4CAF50' : '#FF5252' }
           ]}>
             {stock.change}
           </Text>
-        </View>
-        <View style={styles.changeInfo}>
-          <Text style={styles.label}>漲跌百分比</Text>
           <Text style={[
-            styles.change,
+            styles.changePercent,
             { color: stock.change.startsWith('+') ? '#4CAF50' : '#FF5252' }
           ]}>
-            {stock.changePercent}%
+            {changePercentWithSign}%
           </Text>
         </View>
-      </View>
 
-      {/* 第五行：成交筆數、成交股數、成交金額 */}
-      <View style={styles.row}>
-        <View style={styles.tradeItem}>
-          <Text style={styles.label}>成交筆數</Text>
-          <Text style={styles.tradeValue}>{stock.transactions}</Text>
+        {/* 開盤和參考價區塊 */}
+        <View style={styles.infoSection}>
+          <Text style={styles.infoRow}>
+            <Text style={styles.label}>開盤：</Text>
+            <Text style={styles.value}>{stock.open}</Text>
+          </Text>
+          <Text style={styles.infoRow}>
+            <Text style={styles.label}>參考：</Text>
+            <Text style={styles.value}>{stock.reference}</Text>
+          </Text>
         </View>
-        <View style={styles.tradeItem}>
-          <Text style={styles.label}>成交股數</Text>
-          <Text style={styles.tradeValue}>{stock.tradeVolume}</Text>
-        </View>
-        <View style={styles.tradeItem}>
-          <Text style={styles.label}>成交金額</Text>
-          <Text style={styles.tradeValue}>{stock.tradeValue}</Text>
+
+        {/* 最高和最低價區塊 */}
+        <View style={styles.infoSection}>
+          <Text style={styles.infoRow}>
+            <Text style={styles.label}>最高：</Text>
+            <Text style={styles.value}>{stock.high}</Text>
+          </Text>
+          <Text style={styles.infoRow}>
+            <Text style={styles.label}>最低：</Text>
+            <Text style={styles.value}>{stock.low}</Text>
+          </Text>
         </View>
       </View>
     </TouchableOpacity>
@@ -87,56 +77,72 @@ const styles = StyleSheet.create({
     backgroundColor: '#FFFFFF',
     borderRadius: 12,
     borderWidth: 1,
-    borderColor: '#E0E0E0',
+    borderColor: '#CCCCCC',
     margin: 8,
   },
-  firstRow: {
+  container: {
     flexDirection: 'row',
-    alignItems: 'center',
-    marginBottom: 12,
+    justifyContent: 'space-between',
+    alignItems: 'flex-start',
   },
-  row: {
-    flexDirection: 'row',
-    justifyContent: 'space-around',
-    marginTop: 10,
-  },
-  symbol: {
-    fontSize: 16,
-    fontWeight: 'bold',
-    marginRight: 12,
+  leftSection: {
+    flex: 1.8,
+    height: 44,  // 固定高度為名稱和代號的總高度
   },
   name: {
     fontSize: 16,
+    fontWeight: '600',
     color: '#333333',
-  },
-  priceItem: {
-    alignItems: 'center',
-    minWidth: '30%',
-  },
-  changeInfo: {
-    alignItems: 'center',
-    minWidth: '30%',
-  },
-  tradeItem: {
-    alignItems: 'center',
-    flex: 1,
-  },
-  label: {
-    fontSize: 12,
-    color: '#666666',
     marginBottom: 4,
+    lineHeight: 24,
   },
-  price: {
+  symbol: {
     fontSize: 14,
+    color: '#666666',
+    lineHeight: 16,
+  },
+  priceSection: {
+    flex: 1.5,
+    height: 44,
+    justifyContent: 'center',
+    alignItems: 'flex-end',
+    paddingRight: 8,
+  },
+  closePrice: {
+    fontSize: 24,
+    fontWeight: '600',
     color: '#333333',
+    textAlign: 'right',
+  },
+  changeSection: {
+    flex: 1.1,
+    alignItems: 'flex-end',
   },
   change: {
+    fontSize: 16,
+    fontWeight: '500',
+    marginBottom: 2,
+  },
+  changePercent: {
     fontSize: 14,
     fontWeight: '500',
   },
-  tradeValue: {
-    fontSize: 14,
+  infoSection: {
+    flex: 1.5,
+    marginLeft: 8,
+  },
+  infoRow: {
+    flexDirection: 'row',
+    marginBottom: 4,
+  },
+  label: {
+    fontSize: 13,
+    color: '#666666',
+  },
+  value: {
+    fontSize: 13,
     color: '#333333',
+    marginLeft: 4,
   },
 });
 

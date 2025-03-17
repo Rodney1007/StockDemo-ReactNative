@@ -40,7 +40,7 @@ const StockList = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#FFFFFF',
+    backgroundColor: '#F8F9FA',
     paddingTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0,
   },
   header: {
@@ -59,10 +59,11 @@ const styles = StyleSheet.create({
   },
   content: {
     flex: 1,
+    paddingTop: 16,
+    paddingHorizontal: 8,
   },
   separator: {
-    height: 1,
-    backgroundColor: '#E0E0E0',
+    height: 0,
   },
 });
 
