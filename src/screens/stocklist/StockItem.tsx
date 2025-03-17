@@ -108,7 +108,7 @@ const styles = StyleSheet.create({
     borderRadius: 12,
     borderWidth: 1,
     borderColor: '#333333',      // 深色邊框
-    margin: 4,
+    margin: 6,  // 從 4 增加到 6
   },
   container: {
     flexDirection: 'row',
