@@ -80,6 +80,8 @@ export class StockService {
     if (isNaN(numChange) || isNaN(numPrice)) return '-';
     
     const percentage = (numChange / numPrice) * 100;
+    if (percentage === 0) return '0.00';  // 當為 0 時不加符號
+    
     const sign = percentage < 0 ? '-' : '+';
     return `${sign}${Math.abs(percentage).toFixed(2)}`;
   }
