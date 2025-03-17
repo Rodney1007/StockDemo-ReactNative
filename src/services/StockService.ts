@@ -59,6 +59,20 @@ export class StockService {
     }
   }
 
+  private formatPrice(price: string): string {
+    const numPrice = parseFloat(price);
+    
+    if (isNaN(numPrice)) return '-';
+    
+    if (numPrice >= 500) {
+      return Math.round(numPrice).toString();
+    } else if (numPrice >= 100) {
+      return numPrice.toFixed(1);
+    } else {
+      return numPrice.toFixed(2);
+    }
+  }
+
   public async fetchStockData(): Promise<StockData[]> {
     try {
       const [priceData, metricsData, averageData] = await Promise.all([
@@ -84,14 +98,14 @@ export class StockService {
           id: index.toString(),
           symbol: stock.Code,
           name: stock.Name,
-          price: stock.ClosingPrice,
-          change: stock.Change,
+          price: this.formatPrice(stock.ClosingPrice),
+          change: this.formatPrice(stock.Change),
           changePercent: ((parseFloat(stock.Change) / parseFloat(stock.ClosingPrice)) * 100).toFixed(2),
           volume: stock.TradeVolume,
-          high: stock.HighestPrice,
-          low: stock.LowestPrice,
-          open: stock.OpeningPrice,
-          previousClose,
+          high: this.formatPrice(stock.HighestPrice),
+          low: this.formatPrice(stock.LowestPrice),
+          open: this.formatPrice(stock.OpeningPrice),
+          previousClose: this.formatPrice(previousClose),
           marketCap: '0',
           pe: metrics?.PER ?? '-',
           pbr: metrics?.PBR ?? '-',
@@ -99,8 +113,8 @@ export class StockService {
           tradeVolume: stock.TradeVolume,
           tradeValue: stock.TradeValue,
           transactions: stock.Transaction,
-          reference: previousClose,
-          monthlyAverage: average?.MonthlyAvgPrice ?? '-',
+          reference: this.formatPrice(previousClose),
+          monthlyAverage: this.formatPrice(average?.MonthlyAvgPrice ?? '-'),
         };
       });
     } catch (error) {
