@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback, useMemo } from 'react';
 import {
   View,
   StyleSheet,
@@ -16,17 +16,23 @@ const StockList = () => {
   const [selectedType, setSelectedType] = useState<StockType>('個股');
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    loadStockData();
+  const loadStockData = useCallback(async () => {
+    try {
+      setLoading(true);
+      const data = await stockService.fetchStockData();
+      setStocks(data);
+    } catch (error) {
+      console.error('Error loading stock data:', error);
+    } finally {
+      setLoading(false);
+    }
   }, []);
 
-  const loadStockData = async () => {
-    const data = await stockService.fetchStockData();
-    setStocks(data);
-    setLoading(false);
-  };
+  useEffect(() => {
+    loadStockData();
+  }, [loadStockData]);
 
-  const filteredStocks = React.useMemo(() => {
+  const filteredStocks = useMemo(() => {
     return stocks.filter(stock => getStockType(stock.symbol) === selectedType);
   }, [stocks, selectedType]);
 
