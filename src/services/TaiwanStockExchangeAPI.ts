@@ -4,4 +4,4 @@ export class TaiwanStockExchangeAPI {
   public static readonly MARKET_METRICS = `${this.BASE_URL}/BWIBBU_ALL`;
 }
 
-export default TaiwanStockExchangeAPI; 
+export default TaiwanStockExchangeAPI;
