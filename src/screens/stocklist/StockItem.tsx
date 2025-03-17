@@ -36,7 +36,7 @@ const StockItem = ({ stock }: { stock: StockData }) => {
         <View style={styles.priceSection}>
           <Text style={[
             styles.closePrice,
-            { color: getPriceChangeColor(stock.price, stock.reference) }
+            { color: getPriceChangeColor(stock.price, stock.open) }
           ]}>
             {stock.price}
           </Text>
@@ -103,12 +103,12 @@ const StockItem = ({ stock }: { stock: StockData }) => {
 
 const styles = StyleSheet.create({
   stockItem: {
-    padding: 16,
+    padding: 12,
     backgroundColor: '#1E1E1E',  // 深色背景
     borderRadius: 12,
     borderWidth: 1,
     borderColor: '#333333',      // 深色邊框
-    margin: 8,
+    margin: 4,
   },
   container: {
     flexDirection: 'row',
