@@ -22,15 +22,32 @@ interface TWStockMetrics {
 }
 
 export class StockService {
+  private async fetchStockPrices(): Promise<TWStockData[]> {
+    try {
+      const response = await fetch('https://openapi.twse.com.tw/v1/exchangeReport/STOCK_DAY_ALL');
+      return await response.json();
+    } catch (error) {
+      console.error('Error fetching stock prices:', error);
+      return [];
+    }
+  }
+
+  private async fetchStockMetrics(): Promise<TWStockMetrics[]> {
+    try {
+      const response = await fetch('https://openapi.twse.com.tw/v1/exchangeReport/BWIBBU_ALL');
+      return await response.json();
+    } catch (error) {
+      console.error('Error fetching stock metrics:', error);
+      return [];
+    }
+  }
+
   public async fetchStockData(): Promise<StockData[]> {
     try {
-      const [priceResponse, metricsResponse] = await Promise.all([
-        fetch('https://openapi.twse.com.tw/v1/exchangeReport/STOCK_DAY_ALL'),
-        fetch('https://openapi.twse.com.tw/v1/exchangeReport/BWIBBU_ALL'),
+      const [priceData, metricsData] = await Promise.all([
+        this.fetchStockPrices(),
+        this.fetchStockMetrics(),
       ]);
-
-      const priceData: TWStockData[] = await priceResponse.json();
-      const metricsData: TWStockMetrics[] = await metricsResponse.json();
 
       const metricsMap = new Map(
         metricsData.map(item => [item.Code, item])
