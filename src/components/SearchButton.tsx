@@ -2,20 +2,23 @@ import React from 'react';
 import {
   TouchableOpacity,
   StyleSheet,
+  StyleProp,
+  ViewStyle,
+  Text,
 } from 'react-native';
-import Icon from 'react-native-vector-icons/Ionicons';
 
 interface SearchButtonProps {
   onPress: () => void;
+  style?: StyleProp<ViewStyle>;
 }
 
-const SearchButton: React.FC<SearchButtonProps> = ({ onPress }) => {
+const SearchButton: React.FC<SearchButtonProps> = ({ onPress, style }) => {
   return (
     <TouchableOpacity
-      style={styles.button}
+      style={[styles.button, style]}
       onPress={onPress}
     >
-      <Icon name="search" size={22} color="#FFFFFF" />
+      <Text style={styles.icon}>🔍</Text>
     </TouchableOpacity>
   );
 };
@@ -23,8 +26,10 @@ const SearchButton: React.FC<SearchButtonProps> = ({ onPress }) => {
 const styles = StyleSheet.create({
   button: {
     padding: 8,
-    borderRadius: 8,
-    backgroundColor: '#333333',
+  },
+  icon: {
+    fontSize: 18,
+    color: '#FFFFFF',
   },
 });
 

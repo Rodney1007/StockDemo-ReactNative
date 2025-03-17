@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   View,
   Text,
@@ -7,8 +7,17 @@ import {
 } from 'react-native';
 import { StockData } from './StockData';
 import FontUtils from '../../utils/FontUtils';
+import ConfirmDialog from '../../components/ConfirmDialog';
+import watchListService from '../../services/WatchListService';
 
-const StockItem = ({ stock }: { stock: StockData }) => {
+interface StockItemProps {
+  stock: StockData;
+  onAddToWatchList?: () => void;
+}
+
+const StockItem: React.FC<StockItemProps> = ({ stock, onAddToWatchList }) => {
+  const [showDialog, setShowDialog] = useState(false);
+
   // 判斷價格變動顏色的工具函數
   const getPriceChangeColor = (value: string, reference: string) => {
     const numValue = parseFloat(value);
@@ -33,94 +42,116 @@ const StockItem = ({ stock }: { stock: StockData }) => {
   // 在渲染時使用格式化結果
   const volumeInfo = formatVolume(stock.tradeVolume);
 
+  const handlePress = () => {
+    setShowDialog(true);
+  };
+
+  const handleConfirm = async () => {
+    const success = await watchListService.addToWatchList(stock);
+    if (success && onAddToWatchList) {
+      onAddToWatchList();
+    }
+    setShowDialog(false);
+  };
+
   return (
-    <TouchableOpacity style={styles.stockItem}>
-      <View style={styles.container}>
-        {/* 左側區塊：股票名稱和代號 */}
-        <View style={styles.leftSection}>
-          <Text style={[
-            styles.name,
-            { fontSize: FontUtils.calculateStockNameFontSize(stock.name) }
-          ]}>
-            {stock.name}
-          </Text>
-          <Text style={styles.symbol}>{stock.symbol}</Text>
-        </View>
-
-        {/* 收盤價和交易量區塊 */}
-        <View style={styles.priceSection}>
-          <Text style={[
-            styles.closePrice,
-            { color: getPriceChangeColor(stock.price, stock.open) },
-          ]}>
-            {stock.price}
-          </Text>
-          <Text style={[
-            styles.volume,
-            volumeInfo.isShares && styles.shareVolume,
-            styles.volumeText,
-          ]}>
-            {volumeInfo.text}
-          </Text>
-        </View>
-
-        {/* 漲跌區塊 */}
-        <View style={styles.changeSection}>
-          <Text style={[
-            styles.change,
-            { color: getPriceChangeColor(stock.price, stock.reference) },
-          ]}>
-            {stock.change}
-          </Text>
-          <Text style={[
-            styles.changePercent,
-            { color: getPriceChangeColor(stock.price, stock.reference) },
-          ]}>
-            {stock.changePercent}%
-          </Text>
-        </View>
-
-        {/* 合併的資訊區塊 */}
-        <View style={styles.gridSection}>
-          <View style={styles.gridRow}>
-            <View style={styles.gridItem}>
-              <Text style={styles.label}>開：</Text>
-              <Text style={[
-                styles.value,
-                { color: getPriceChangeColor(stock.open, stock.reference) },
-              ]}>
-                {stock.open}
-              </Text>
-            </View>
-            <View style={styles.gridItem}>
-              <Text style={styles.label}>高：</Text>
-              <Text style={[
-                styles.value,
-                { color: getPriceChangeColor(stock.high, stock.reference) },
-              ]}>
-                {stock.high}
-              </Text>
-            </View>
+    <>
+      <TouchableOpacity style={styles.stockItem} onPress={handlePress}>
+        <View style={styles.container}>
+          {/* 左側區塊：股票名稱和代號 */}
+          <View style={styles.leftSection}>
+            <Text style={[
+              styles.name,
+              { fontSize: FontUtils.calculateStockNameFontSize(stock.name) }
+            ]}>
+              {stock.name}
+            </Text>
+            <Text style={styles.symbol}>{stock.symbol}</Text>
           </View>
 
-          <View style={styles.gridRow}>
-            <View style={styles.gridItem}>
-              <Text style={styles.label}>參：</Text>
-              <Text style={styles.value}>{stock.reference}</Text>
+          {/* 收盤價和交易量區塊 */}
+          <View style={styles.priceSection}>
+            <Text style={[
+              styles.closePrice,
+              { color: getPriceChangeColor(stock.price, stock.open) },
+            ]}>
+              {stock.price}
+            </Text>
+            <Text style={[
+              styles.volume,
+              volumeInfo.isShares && styles.shareVolume,
+              styles.volumeText,
+            ]}>
+              {volumeInfo.text}
+            </Text>
+          </View>
+
+          {/* 漲跌區塊 */}
+          <View style={styles.changeSection}>
+            <Text style={[
+              styles.change,
+              { color: getPriceChangeColor(stock.price, stock.reference) },
+            ]}>
+              {stock.change}
+            </Text>
+            <Text style={[
+              styles.changePercent,
+              { color: getPriceChangeColor(stock.price, stock.reference) },
+            ]}>
+              {stock.changePercent}%
+            </Text>
+          </View>
+
+          {/* 合併的資訊區塊 */}
+          <View style={styles.gridSection}>
+            <View style={styles.gridRow}>
+              <View style={styles.gridItem}>
+                <Text style={styles.label}>開：</Text>
+                <Text style={[
+                  styles.value,
+                  { color: getPriceChangeColor(stock.open, stock.reference) },
+                ]}>
+                  {stock.open}
+                </Text>
+              </View>
+              <View style={styles.gridItem}>
+                <Text style={styles.label}>高：</Text>
+                <Text style={[
+                  styles.value,
+                  { color: getPriceChangeColor(stock.high, stock.reference) },
+                ]}>
+                  {stock.high}
+                </Text>
+              </View>
             </View>
-            <View style={styles.gridItem}>
-              <Text style={styles.label}>低：</Text>
-              <Text style={[
-                styles.value,
-                { color: getPriceChangeColor(stock.low, stock.reference) },
-              ]}>
-                {stock.low}
-              </Text>
+
+            <View style={styles.gridRow}>
+              <View style={styles.gridItem}>
+                <Text style={styles.label}>參：</Text>
+                <Text style={styles.value}>{stock.reference}</Text>
+              </View>
+              <View style={styles.gridItem}>
+                <Text style={styles.label}>低：</Text>
+                <Text style={[
+                  styles.value,
+                  { color: getPriceChangeColor(stock.low, stock.reference) },
+                ]}>
+                  {stock.low}
+                </Text>
+              </View>
             </View>
           </View>
         </View>
-      </View>
-    </TouchableOpacity>
+      </TouchableOpacity>
+
+      <ConfirmDialog
+        visible={showDialog}
+        title="加入自選"
+        message={`是否將 ${stock.name}(${stock.symbol}) 加入自選股？`}
+        onConfirm={handleConfirm}
+        onCancel={() => setShowDialog(false)}
+      />
+    </>
   );
 };
 
