@@ -6,6 +6,7 @@ import {
   StyleSheet,
 } from 'react-native';
 import { StockData } from './StockData';
+import FontUtils from '../../utils/FontUtils';
 
 const StockItem = ({ stock }: { stock: StockData }) => {
   // 判斷價格變動顏色的工具函數
@@ -23,7 +24,12 @@ const StockItem = ({ stock }: { stock: StockData }) => {
       <View style={styles.container}>
         {/* 左側區塊：股票名稱和代號 */}
         <View style={styles.leftSection}>
-          <Text style={styles.name}>{stock.name}</Text>
+          <Text style={[
+            styles.name,
+            { fontSize: FontUtils.calculateStockNameFontSize(stock.name) }
+          ]}>
+            {stock.name}
+          </Text>
           <Text style={styles.symbol}>{stock.symbol}</Text>
         </View>
 
@@ -111,13 +117,12 @@ const styles = StyleSheet.create({
     alignItems: 'flex-start',
   },
   leftSection: {
-    flex: 1.8,
+    flex:2,
     height: 44,  // 固定高度為名稱和代號的總高度
   },
   name: {
-    fontSize: 16,
     fontWeight: '600',
-    color: '#FFFFFF',            // 白色文字
+    color: '#FFFFFF',
     marginBottom: 4,
     lineHeight: 24,
   },
