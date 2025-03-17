@@ -1,5 +1,5 @@
 import { StockData } from '../screens/stocklist/StockData';
-import TaiwanStockExchangeAPI from './TaiwanStockExchangeAPI.ts';
+import TaiwanStockExchangeAPI from './TaiwanStockExchangeAPI';
 
 interface TWStockData {
   Code: string;
@@ -22,6 +22,11 @@ interface TWStockMetrics {
   PBR: string;      // 股價淨值比
 }
 
+interface TWStockAverage {
+  Code: string;
+  Name: string;
+  MonthlyAvgPrice: string;  // 月均價
+}
 
 export class StockService {
   private async fetchStockPrices(): Promise<TWStockData[]> {
@@ -44,19 +49,35 @@ export class StockService {
     }
   }
 
+  private async fetchMonthlyAverages(): Promise<TWStockAverage[]> {
+    try {
+      const response = await fetch(TaiwanStockExchangeAPI.MONTHLY_AVERAGE);
+      return await response.json();
+    } catch (error) {
+      console.error('Error fetching monthly averages:', error);
+      return [];
+    }
+  }
+
   public async fetchStockData(): Promise<StockData[]> {
     try {
-      const [priceData, metricsData] = await Promise.all([
+      const [priceData, metricsData, averageData] = await Promise.all([
         this.fetchStockPrices(),
         this.fetchStockMetrics(),
+        this.fetchMonthlyAverages(),
       ]);
 
       const metricsMap = new Map(
         metricsData.map(item => [item.Code, item])
       );
 
+      const averageMap = new Map(
+        averageData.map(item => [item.Code, item])
+      );
+
       return priceData.map((stock, index): StockData => {
         const metrics = metricsMap.get(stock.Code);
+        const average = averageMap.get(stock.Code);
         const previousClose = (parseFloat(stock.ClosingPrice) - parseFloat(stock.Change)).toString();
 
         return {
@@ -79,6 +100,7 @@ export class StockService {
           tradeValue: stock.TradeValue,
           transactions: stock.Transaction,
           reference: previousClose,
+          monthlyAverage: average?.MonthlyAvgPrice ?? '-',
         };
       });
     } catch (error) {
