@@ -73,6 +73,17 @@ export class StockService {
     }
   }
 
+  private formatPercentage(change: string, price: string): string {
+    const numChange = parseFloat(change);
+    const numPrice = parseFloat(price);
+    
+    if (isNaN(numChange) || isNaN(numPrice)) return '-';
+    
+    const percentage = (numChange / numPrice) * 100;
+    const sign = percentage < 0 ? '-' : '+';
+    return `${sign}${Math.abs(percentage).toFixed(2)}`;
+  }
+
   public async fetchStockData(): Promise<StockData[]> {
     try {
       const [priceData, metricsData, averageData] = await Promise.all([
@@ -100,7 +111,7 @@ export class StockService {
           name: stock.Name,
           price: this.formatPrice(stock.ClosingPrice),
           change: this.formatPrice(stock.Change),
-          changePercent: ((parseFloat(stock.Change) / parseFloat(stock.ClosingPrice)) * 100).toFixed(2),
+          changePercent: this.formatPercentage(stock.Change, stock.ClosingPrice),
           volume: stock.TradeVolume,
           high: this.formatPrice(stock.HighestPrice),
           low: this.formatPrice(stock.LowestPrice),

@@ -18,11 +18,6 @@ const StockItem = ({ stock }: { stock: StockData }) => {
     return '#FFFFFF';  // 等於參考價為白色
   };
 
-  // 處理漲跌幅的正負號
-  const changePercentWithSign = stock.change.startsWith('+')
-    ? `+${stock.changePercent}`
-    : `-${stock.changePercent}`;
-
   return (
     <TouchableOpacity style={styles.stockItem}>
       <View style={styles.container}>
@@ -54,7 +49,7 @@ const StockItem = ({ stock }: { stock: StockData }) => {
             styles.changePercent,
             { color: getPriceChangeColor(stock.price, stock.reference) },
           ]}>
-            {changePercentWithSign}%
+            {stock.changePercent}%
           </Text>
         </View>
 
