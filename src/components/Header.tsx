@@ -6,25 +6,34 @@ import {
   Platform,
   StatusBar,
 } from 'react-native';
+import LinearGradient from 'react-native-linear-gradient';
 import { StockType } from './StockTypeFilter';
 
 interface HeaderProps {
   title: string;
-  leftComponent?: React.ReactNode;
+  rightComponent?: React.ReactNode;
 }
 
-const Header: React.FC<HeaderProps> = ({ title, leftComponent }) => {
+const Header: React.FC<HeaderProps> = ({ title, rightComponent }) => {
   return (
-    <View style={styles.headerGradient}>
+    <LinearGradient
+      colors={['#2A2A2A', '#1E1E1E']}
+      style={styles.headerGradient}
+    >
+      <StatusBar
+        backgroundColor="transparent"
+        translucent
+        barStyle="light-content"
+      />
       <View style={styles.header}>
-        <View style={styles.leftSection}>
-          {leftComponent}
-        </View>
+        <View style={styles.leftSection} />
         <Text style={styles.headerTitle}>{title}</Text>
-        <View style={styles.rightSection} />
+        <View style={styles.rightSection}>
+          {rightComponent}
+        </View>
       </View>
       <View style={styles.headerGlow} />
-    </View>
+    </LinearGradient>
   );
 };
 
@@ -41,10 +50,10 @@ const styles = StyleSheet.create({
   },
   leftSection: {
     flex: 1,
-    alignItems: 'flex-start',
   },
   rightSection: {
     flex: 1,
+    alignItems: 'flex-end',
   },
   headerTitle: {
     fontSize: 20,
