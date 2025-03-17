@@ -15,7 +15,7 @@ const StockItem = ({ stock }: { stock: StockData }) => {
     
     if (numValue > numReference) return '#FF5252';  // 高於參考價為紅色
     if (numValue < numReference) return '#4CAF50';  // 低於參考價為綠色
-    return '#333333';  // 等於參考價為預設黑色
+    return '#FFFFFF';  // 等於參考價為白色
   };
 
   // 處理漲跌幅的正負號
@@ -104,10 +104,10 @@ const StockItem = ({ stock }: { stock: StockData }) => {
 const styles = StyleSheet.create({
   stockItem: {
     padding: 16,
-    backgroundColor: '#FFFFFF',
+    backgroundColor: '#1E1E1E',  // 深色背景
     borderRadius: 12,
     borderWidth: 1,
-    borderColor: '#CCCCCC',
+    borderColor: '#333333',      // 深色邊框
     margin: 8,
   },
   container: {
@@ -122,13 +122,13 @@ const styles = StyleSheet.create({
   name: {
     fontSize: 16,
     fontWeight: '600',
-    color: '#333333',
+    color: '#FFFFFF',            // 白色文字
     marginBottom: 4,
     lineHeight: 24,
   },
   symbol: {
     fontSize: 14,
-    color: '#666666',
+    color: '#AAAAAA',           // 淺灰色文字
     lineHeight: 16,
   },
   priceSection: {
@@ -141,7 +141,7 @@ const styles = StyleSheet.create({
   closePrice: {
     fontSize: 24,
     fontWeight: '600',
-    color: '#333333',
+    color: '#FFFFFF',           // 白色文字
     textAlign: 'right',
   },
   changeSection: {
@@ -167,11 +167,11 @@ const styles = StyleSheet.create({
   },
   label: {
     fontSize: 13,
-    color: '#666666',
+    color: '#AAAAAA',          // 淺灰色文字
   },
   value: {
     fontSize: 13,
-    color: '#333333',
+    color: '#FFFFFF',          // 白色文字
     marginLeft: 4,
   },
 });

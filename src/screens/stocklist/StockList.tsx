@@ -40,7 +40,7 @@ const StockList = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#F8F9FA',
+    backgroundColor: '#121212',
     paddingTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0,
   },
   header: {
@@ -49,13 +49,13 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     borderBottomWidth: 1,
-    borderBottomColor: '#E0E0E0',
-    backgroundColor: '#FFFFFF',
+    borderBottomColor: '#333333',
+    backgroundColor: '#1E1E1E',
   },
   headerTitle: {
     fontSize: 20,
     fontWeight: '500',
-    color: '#333333',
+    color: '#FFFFFF',
   },
   content: {
     flex: 1,
