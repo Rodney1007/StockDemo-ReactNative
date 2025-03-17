@@ -1,16 +1,15 @@
 import React from 'react';
 import {
   View,
-  Text,
   StyleSheet,
   FlatList,
   SafeAreaView,
   StatusBar,
   Platform,
 } from 'react-native';
-import LinearGradient from 'react-native-linear-gradient';
 import StockItem from './StockItem';
 import { StockData, stockData } from './StockData';
+import Header from '../../components/Header';
 
 const StockList = () => {
 
@@ -20,20 +19,7 @@ const StockList = () => {
 
   return (
     <SafeAreaView style={styles.container}>
-      <LinearGradient
-        colors={['#2A2A2A', '#1E1E1E']}
-        style={styles.headerGradient}
-      >
-        <StatusBar
-          backgroundColor="transparent"
-          translucent
-          barStyle="light-content"
-        />
-        <View style={styles.header}>
-          <Text style={styles.headerTitle}>股票列表</Text>
-        </View>
-        <View style={styles.headerGlow} />
-      </LinearGradient>
+      <Header title="股票列表" />
       <View style={styles.content}>
         <FlatList
           data={stockData}
