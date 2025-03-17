@@ -19,6 +19,20 @@ const StockItem = ({ stock }: { stock: StockData }) => {
     return '#FFFFFF';  // 等於參考價為白色
   };
 
+  // 修改交易量格式化函數，返回格式化後的文字和是否為股的標記
+  const formatVolume = (volume: string): { text: string; isShares: boolean } => {
+    const numVolume = parseInt(volume, 10);
+    if (isNaN(numVolume)) return { text: '-', isShares: false };
+
+    if (numVolume < 1000) {
+      return { text: `${numVolume}股`, isShares: true };
+    }
+    return { text: `${Math.floor(numVolume / 1000).toLocaleString()}張`, isShares: false };
+  };
+
+  // 在渲染時使用格式化結果
+  const volumeInfo = formatVolume(stock.tradeVolume);
+
   return (
     <TouchableOpacity style={styles.stockItem}>
       <View style={styles.container}>
@@ -59,43 +73,57 @@ const StockItem = ({ stock }: { stock: StockData }) => {
           </Text>
         </View>
 
-        {/* 開盤和參考價區塊 */}
-        <View style={styles.infoSection}>
-          <Text style={styles.infoRow}>
-            <Text style={styles.label}>開盤：</Text>
-            <Text style={[
-              styles.value,
-              { color: getPriceChangeColor(stock.open, stock.reference) },
-            ]}>
-              {stock.open}
-            </Text>
-          </Text>
-          <Text style={styles.infoRow}>
-            <Text style={styles.label}>參考：</Text>
-            <Text style={styles.value}>{stock.reference}</Text>
-          </Text>
-        </View>
+        {/* 合併的資訊區塊 */}
+        <View style={styles.gridSection}>
+          <View style={styles.gridRow}>
+            <View style={styles.gridItem}>
+              <Text style={styles.label}>開盤：</Text>
+              <Text style={[
+                styles.value,
+                { color: getPriceChangeColor(stock.open, stock.reference) },
+              ]}>
+                {stock.open}
+              </Text>
+            </View>
+            <View style={styles.gridItem}>
+              <Text style={styles.label}>最高：</Text>
+              <Text style={[
+                styles.value,
+                { color: getPriceChangeColor(stock.high, stock.reference) },
+              ]}>
+                {stock.high}
+              </Text>
+            </View>
+          </View>
 
-        {/* 最高和最低價區塊 */}
-        <View style={styles.infoSection}>
-          <Text style={styles.infoRow}>
-            <Text style={styles.label}>最高：</Text>
-            <Text style={[
-              styles.value,
-              { color: getPriceChangeColor(stock.high, stock.reference) },
-            ]}>
-              {stock.high}
-            </Text>
-          </Text>
-          <Text style={styles.infoRow}>
-            <Text style={styles.label}>最低：</Text>
-            <Text style={[
-              styles.value,
-              { color: getPriceChangeColor(stock.low, stock.reference) },
-            ]}>
-              {stock.low}
-            </Text>
-          </Text>
+          <View style={styles.gridRow}>
+            <View style={styles.gridItem}>
+              <Text style={styles.label}>參考：</Text>
+              <Text style={styles.value}>{stock.reference}</Text>
+            </View>
+            <View style={styles.gridItem}>
+              <Text style={styles.label}>最低：</Text>
+              <Text style={[
+                styles.value,
+                { color: getPriceChangeColor(stock.low, stock.reference) },
+              ]}>
+                {stock.low}
+              </Text>
+            </View>
+          </View>
+
+          <View style={styles.gridRow}>
+            <View style={[styles.gridItem, styles.volumeItem]}>
+              <Text style={styles.label}>交易量：</Text>
+              <Text style={[
+                styles.value,
+                styles.volumeValue,
+                volumeInfo.isShares && styles.shareVolume
+              ]}>
+                {volumeInfo.text}
+              </Text>
+            </View>
+          </View>
         </View>
       </View>
     </TouchableOpacity>
@@ -157,13 +185,32 @@ const styles = StyleSheet.create({
     fontSize: 14,
     fontWeight: '500',
   },
-  infoSection: {
-    flex: 1.5,
+  gridSection: {
+    flex: 3.5,
     marginLeft: 8,
   },
-  infoRow: {
+  gridRow: {
     flexDirection: 'row',
+    justifyContent: 'space-between',
     marginBottom: 4,
+  },
+  gridItem: {
+    flex: 1,
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  volumeItem: {
+    flex: 2,
+    justifyContent: 'space-between',  // 讓標籤和數值分開對齊
+  },
+  volumeValue: {
+    textAlign: 'right',
+    flex: 1,
+    color: '#FFFFFF',
+    marginEnd:6,
+  },
+  shareVolume: {
+    color: '#888888',  // 當以股為單位時使用灰色
   },
   label: {
     fontSize: 13,
