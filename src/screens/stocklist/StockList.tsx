@@ -10,7 +10,7 @@ import {
   Platform,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
-import StockItem from '../components/StockItem';
+import StockItem from './StockItem.tsx';
 
 // 模擬股票數據
 const stockData = [

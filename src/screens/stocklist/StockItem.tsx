@@ -4,7 +4,6 @@ import {
   Text,
   TouchableOpacity,
   StyleSheet,
-  Platform,
 } from 'react-native';
 
 type StockItemProps = {
@@ -75,4 +74,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default StockItem; 
+export default StockItem;
