@@ -47,13 +47,20 @@ const StockItem = ({ stock }: { stock: StockData }) => {
           <Text style={styles.symbol}>{stock.symbol}</Text>
         </View>
 
-        {/* 收盤價區塊 */}
+        {/* 收盤價和交易量區塊 */}
         <View style={styles.priceSection}>
           <Text style={[
             styles.closePrice,
             { color: getPriceChangeColor(stock.price, stock.open) },
           ]}>
             {stock.price}
+          </Text>
+          <Text style={[
+            styles.volume,
+            volumeInfo.isShares && styles.shareVolume,
+            styles.volumeText,
+          ]}>
+            {volumeInfo.text}
           </Text>
         </View>
 
@@ -77,7 +84,7 @@ const StockItem = ({ stock }: { stock: StockData }) => {
         <View style={styles.gridSection}>
           <View style={styles.gridRow}>
             <View style={styles.gridItem}>
-              <Text style={styles.label}>開盤：</Text>
+              <Text style={styles.label}>開：</Text>
               <Text style={[
                 styles.value,
                 { color: getPriceChangeColor(stock.open, stock.reference) },
@@ -86,7 +93,7 @@ const StockItem = ({ stock }: { stock: StockData }) => {
               </Text>
             </View>
             <View style={styles.gridItem}>
-              <Text style={styles.label}>最高：</Text>
+              <Text style={styles.label}>高：</Text>
               <Text style={[
                 styles.value,
                 { color: getPriceChangeColor(stock.high, stock.reference) },
@@ -98,29 +105,16 @@ const StockItem = ({ stock }: { stock: StockData }) => {
 
           <View style={styles.gridRow}>
             <View style={styles.gridItem}>
-              <Text style={styles.label}>參考：</Text>
+              <Text style={styles.label}>參：</Text>
               <Text style={styles.value}>{stock.reference}</Text>
             </View>
             <View style={styles.gridItem}>
-              <Text style={styles.label}>最低：</Text>
+              <Text style={styles.label}>低：</Text>
               <Text style={[
                 styles.value,
                 { color: getPriceChangeColor(stock.low, stock.reference) },
               ]}>
                 {stock.low}
-              </Text>
-            </View>
-          </View>
-
-          <View style={styles.gridRow}>
-            <View style={[styles.gridItem, styles.volumeItem]}>
-              <Text style={styles.label}>交易量：</Text>
-              <Text style={[
-                styles.value,
-                styles.volumeValue,
-                volumeInfo.isShares && styles.shareVolume
-              ]}>
-                {volumeInfo.text}
               </Text>
             </View>
           </View>
@@ -145,7 +139,7 @@ const styles = StyleSheet.create({
     alignItems: 'flex-start',
   },
   leftSection: {
-    flex:2,
+    flex:2.5,
     height: 44,  // 固定高度為名稱和代號的總高度
   },
   name: {
@@ -162,15 +156,23 @@ const styles = StyleSheet.create({
   priceSection: {
     flex: 1.5,
     height: 44,
-    justifyContent: 'center',
+    justifyContent: 'space-between',
     alignItems: 'flex-end',
     paddingRight: 8,
   },
   closePrice: {
     fontSize: 24,
     fontWeight: '600',
-    color: '#FFFFFF',           // 白色文字
+    color: '#FFFFFF',
     textAlign: 'right',
+  },
+  volume: {
+    fontSize: 13,
+    color: '#FFFFFF',
+    textAlign: 'right',
+  },
+  volumeText: {
+    marginTop: -2,  // 微調位置，使其更靠近收盤價
   },
   changeSection: {
     flex: 1.1,
@@ -186,7 +188,7 @@ const styles = StyleSheet.create({
     fontWeight: '500',
   },
   gridSection: {
-    flex: 3.5,
+    flex: 3.2,
     marginLeft: 8,
   },
   gridRow: {
@@ -199,19 +201,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
   },
-  volumeItem: {
-    flex: 2,
-    justifyContent: 'space-between',  // 讓標籤和數值分開對齊
-  },
-  volumeValue: {
-    textAlign: 'right',
-    flex: 1,
-    color: '#FFFFFF',
-    marginEnd:6,
-  },
-  shareVolume: {
-    color: '#888888',  // 當以股為單位時使用灰色
-  },
   label: {
     fontSize: 13,
     color: '#AAAAAA',          // 淺灰色文字
@@ -220,6 +209,9 @@ const styles = StyleSheet.create({
     fontSize: 13,
     color: '#FFFFFF',          // 白色文字
     marginLeft: 4,
+  },
+  shareVolume: {
+    color: '#888888',
   },
 });
 
