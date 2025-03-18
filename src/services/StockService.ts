@@ -1,4 +1,4 @@
-import { StockData } from '../screens/stocklist/StockData';
+import { StockData } from '../components/StockData';
 import TaiwanStockExchangeAPI from './TaiwanStockExchangeAPI';
 
 interface TWStockData {
@@ -61,9 +61,9 @@ export class StockService {
 
   private formatPrice(price: string): string {
     const numPrice = parseFloat(price);
-    
-    if (isNaN(numPrice)) return '-';
-    
+    if (isNaN(numPrice)) {
+      return '-';
+    }
     if (numPrice >= 500) {
       return Math.round(numPrice).toString();
     } else if (numPrice >= 100) {
@@ -76,12 +76,13 @@ export class StockService {
   private formatPercentage(change: string, price: string): string {
     const numChange = parseFloat(change);
     const numPrice = parseFloat(price);
-    
-    if (isNaN(numChange) || isNaN(numPrice)) return '-';
-    
+    if (isNaN(numChange) || isNaN(numPrice)) {
+      return '-';
+    }
     const percentage = (numChange / numPrice) * 100;
-    if (percentage === 0) return '0.00';  // 當為 0 時不加符號
-    
+    if (percentage === 0) {
+      return '0.00';
+    }  // 當為 0 時不加符號
     const sign = percentage < 0 ? '-' : '+';
     return `${sign}${Math.abs(percentage).toFixed(2)}`;
   }
