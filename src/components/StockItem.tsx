@@ -7,10 +7,9 @@ import {
 } from 'react-native';
 import { StockData } from './StockData.ts';
 import FontUtils from '../utils/FontUtils.ts';
-import ConfirmDialog from './ConfirmDialog.tsx';
-import watchListService from '../services/WatchListService.ts';
 import PriceColorUtils from '../utils/PriceColorUtils';
 import VolumeUtils from '../utils/VolumeUtils';
+import AddToWatchListDialog from './AddToWatchListDialog';
 
 interface StockItemProps {
   stock: StockData;
@@ -30,21 +29,12 @@ class StockItem extends Component<StockItemProps, StockItemState> {
     this.setState({ showDialog: true });
   };
 
-  handleConfirm = async () => {
-    const { stock, onAddToWatchList } = this.props;
-    const success = await watchListService.addToWatchList(stock);
-    if (success && onAddToWatchList) {
-      onAddToWatchList();
-    }
-    this.setState({ showDialog: false });
-  };
-
-  handleCancel = () => {
+  handleDialogClose = () => {
     this.setState({ showDialog: false });
   };
 
   render() {
-    const { stock } = this.props;
+    const { stock, onAddToWatchList } = this.props;
     const { showDialog } = this.state;
     const volumeInfo = VolumeUtils.formatVolume(stock.tradeVolume);
 
@@ -138,12 +128,11 @@ class StockItem extends Component<StockItemProps, StockItemState> {
           </View>
         </TouchableOpacity>
 
-        <ConfirmDialog
+        <AddToWatchListDialog
           visible={showDialog}
-          title="加入自選"
-          message={`是否將 ${stock.name}(${stock.symbol}) 加入自選股？`}
-          onConfirm={this.handleConfirm}
-          onCancel={this.handleCancel}
+          stock={stock}
+          onSuccess={onAddToWatchList}
+          onClose={this.handleDialogClose}
         />
       </>
     );
