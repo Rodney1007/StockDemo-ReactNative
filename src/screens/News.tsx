@@ -13,6 +13,7 @@ import { useFocusEffect } from '@react-navigation/native';
 import Header from '../components/Header';
 import watchListService from '../services/WatchListService';
 import newsService, { NewsItem } from '../services/NewsService';
+import Colors from '../constants/Colors';
 
 const News = () => {
   const [news, setNews] = useState<NewsItem[]>([]);
@@ -112,13 +113,13 @@ const News = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#0A0A0A',
+    backgroundColor: Colors.background.primary,
   },
   listContent: {
     padding: 16,
   },
   newsItem: {
-    backgroundColor: '#1E1E1E',
+    backgroundColor: Colors.background.secondary,
     padding: 16,
     borderRadius: 8,
     marginBottom: 12,
@@ -130,11 +131,11 @@ const styles = StyleSheet.create({
     marginBottom: 8,
   },
   stockTag: {
-    backgroundColor: '#2C2416',
+    backgroundColor: Colors.background.tertiary,
     paddingHorizontal: 8,
     paddingVertical: 4,
     borderRadius: 4,
-    borderColor: '#D4AF37', 
+    borderColor: Colors.primary,
     shadowColor: '#000',
     shadowOffset: {
       width: 0,
@@ -145,7 +146,7 @@ const styles = StyleSheet.create({
     elevation: 2,
   },
   stockTagText: {
-    color: '#D4AF37',
+    color: Colors.primary,
     fontSize: 12,
     fontWeight: '600',
     textShadowColor: 'rgba(0, 0, 0, 0.25)',
@@ -163,7 +164,7 @@ const styles = StyleSheet.create({
     marginBottom: 8,
   },
   newsSource: {
-    color: '#4CAF50',
+    color: Colors.primary,
     fontSize: 12,
     marginBottom: 4,
   },
