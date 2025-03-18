@@ -4,26 +4,26 @@ import {
   Text,
   FlatList,
   StyleSheet,
-  TouchableOpacity,
   Linking,
   RefreshControl,
   SafeAreaView,
 } from 'react-native';
 import { useFocusEffect } from '@react-navigation/native';
 import Header from '../components/Header';
+import NewsItem from '../components/NewsItem';
 import watchListService from '../services/WatchListService';
-import newsService, { NewsItem } from '../services/NewsService';
+import newsService, { NewsItem as NewsItemType } from '../services/NewsService';
 import Colors from '../constants/Colors';
 
 const News = () => {
-  const [news, setNews] = useState<NewsItem[]>([]);
+  const [news, setNews] = useState<NewsItemType[]>([]);
   const [loading, setLoading] = useState(false);
 
   const loadNews = useCallback(async () => {
     try {
       setLoading(true);
       const watchlist = await watchListService.getWatchList();
-      const allNews: NewsItem[] = [];
+      const allNews: NewsItemType[] = [];
       // 為每個自選股票抓取新聞
       for (const stock of watchlist) {
         const stockNews = await newsService.fetchStockNews(stock.name);
@@ -64,37 +64,20 @@ const News = () => {
     }
   };
 
-  const renderNewsItem = ({ item }: { item: NewsItem }) => (
-    <TouchableOpacity
-      style={styles.newsItem}
-      onPress={() => handleNewsPress(item.link)}
-    >
-      <View style={styles.newsHeader}>
-        <View style={styles.stockTag}>
-          <Text style={styles.stockTagText}>{item.stockName}</Text>
-        </View>
-        <Text style={styles.newsDate}>{item.publishDate}</Text>
-      </View>
-      <Text style={styles.newsTitle}>{item.title}</Text>
-      <Text style={styles.newsSource}>{item.source}</Text>
-      <Text style={styles.newsSnippet} numberOfLines={2}>
-        {item.snippet}
-      </Text>
-    </TouchableOpacity>
-  );
-
   return (
     <SafeAreaView style={styles.container}>
       <Header title="相關新聞" />
       <FlatList
         data={news}
-        renderItem={renderNewsItem}
+        renderItem={({ item }) => (
+          <NewsItem item={item} onPress={handleNewsPress} />
+        )}
         keyExtractor={(item, index) => `${item.link}-${index}`}
         refreshControl={
           <RefreshControl
             refreshing={loading}
             onRefresh={loadNews}
-            tintColor="#FFFFFF"
+            tintColor={Colors.text.primary}
           />
         }
         contentContainerStyle={styles.listContent}
@@ -118,61 +101,6 @@ const styles = StyleSheet.create({
   listContent: {
     padding: 16,
   },
-  newsItem: {
-    backgroundColor: Colors.background.secondary,
-    padding: 16,
-    borderRadius: 8,
-    marginBottom: 12,
-  },
-  newsHeader: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    marginBottom: 8,
-  },
-  stockTag: {
-    backgroundColor: Colors.background.tertiary,
-    paddingHorizontal: 8,
-    paddingVertical: 4,
-    borderRadius: 4,
-    borderColor: Colors.primary,
-    shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 1,
-    },
-    shadowOpacity: 0.2,
-    shadowRadius: 1.41,
-    elevation: 2,
-  },
-  stockTagText: {
-    color: Colors.primary,
-    fontSize: 12,
-    fontWeight: '600',
-    textShadowColor: 'rgba(0, 0, 0, 0.25)',
-    textShadowOffset: { width: 0, height: 1 },
-    textShadowRadius: 2,
-  },
-  newsDate: {
-    color: '#888888',
-    fontSize: 12,
-  },
-  newsTitle: {
-    color: '#FFFFFF',
-    fontSize: 16,
-    fontWeight: '600',
-    marginBottom: 8,
-  },
-  newsSource: {
-    color: Colors.primary,
-    fontSize: 12,
-    marginBottom: 4,
-  },
-  newsSnippet: {
-    color: '#AAAAAA',
-    fontSize: 14,
-    lineHeight: 20,
-  },
   emptyContainer: {
     flex: 1,
     justifyContent: 'center',
@@ -180,7 +108,7 @@ const styles = StyleSheet.create({
     paddingTop: 32,
   },
   emptyText: {
-    color: '#888888',
+    color: Colors.text.tertiary,
     fontSize: 16,
   },
 });
