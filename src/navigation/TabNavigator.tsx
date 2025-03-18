@@ -32,22 +32,22 @@ const TabNavigator = () => {
         }}
       >
         <Tab.Screen
-          name="WatchList"
-          component={WatchList}
-          options={{
-            tabBarLabel: '自選',
-            tabBarIcon: ({ color, size }: TabIconProps) => (
-              <Icon name="star" size={size} color={color} />
-            ),
-          }}
-        />
-        <Tab.Screen
           name="StockList"
           component={StockList}
           options={{
             tabBarLabel: '股票',
             tabBarIcon: ({ color, size }: TabIconProps) => (
               <Icon name="trending-up" size={size} color={color} />
+            ),
+          }}
+        />
+        <Tab.Screen
+          name="WatchList"
+          component={WatchList}
+          options={{
+            tabBarLabel: '自選',
+            tabBarIcon: ({ color, size }: TabIconProps) => (
+              <Icon name="star" size={size} color={color} />
             ),
           }}
         />
