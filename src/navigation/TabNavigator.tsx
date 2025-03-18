@@ -23,6 +23,14 @@ const TabNavigator = () => {
           },
           tabBarActiveTintColor: '#4CAF50',
           tabBarInactiveTintColor: '#888888',
+          tabBarLabelStyle: {
+            fontSize: 14,
+            fontWeight: '600',
+            marginBottom: 4,
+          },
+          tabBarIconStyle: {
+            marginTop: 4,
+          },
         }}
       >
         <Tab.Screen
