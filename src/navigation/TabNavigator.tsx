@@ -1,13 +1,27 @@
 import React from 'react';
-import { Platform } from 'react-native';
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { NavigationContainer } from '@react-navigation/native';
+import {Platform} from 'react-native';
+import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
+import {NavigationContainer} from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
 import WatchListScreen from '../screens/WatchListScreen.tsx';
 import StocksScreen from '../screens/StocksScreen';
 import NewsScreen from '../screens/NewsScreen.tsx';
+
 const Tab = createBottomTabNavigator();
+
+// 提取圖標組件到外部
+const StockIcon = ({color}: {color: string}) => (
+  <Icon name="show-chart" size={24} color={color} />
+);
+
+const WatchListIcon = ({color}: {color: string}) => (
+  <Icon name="star" size={24} color={color} />
+);
+
+const NewsIcon = ({color}: {color: string}) => (
+  <Icon name="newspaper" size={24} color={color} />
+);
 
 const TabNavigator = () => {
   return (
@@ -31,16 +45,13 @@ const TabNavigator = () => {
           tabBarIconStyle: {
             marginTop: 4,
           },
-        }}
-      >
+        }}>
         <Tab.Screen
           name="Stocks"
           component={StocksScreen}
           options={{
             tabBarLabel: '股票',
-            tabBarIcon: ({ color }) => (
-              <Icon name="show-chart" size={24} color={color} />
-            ),
+            tabBarIcon: StockIcon,
           }}
         />
         <Tab.Screen
@@ -48,9 +59,7 @@ const TabNavigator = () => {
           component={WatchListScreen}
           options={{
             tabBarLabel: '自選',
-            tabBarIcon: ({ color }) => (
-              <Icon name="star" size={24} color={color} />
-            ),
+            tabBarIcon: WatchListIcon,
           }}
         />
         <Tab.Screen
@@ -58,9 +67,7 @@ const TabNavigator = () => {
           component={NewsScreen}
           options={{
             tabBarLabel: '新聞',
-            tabBarIcon: ({ color }) => (
-              <Icon name="newspaper" size={24} color={color} />
-            ),
+            tabBarIcon: NewsIcon,
           }}
         />
       </Tab.Navigator>
