@@ -1,5 +1,5 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { StockData } from '../components/StockData.ts';
+import { StockData } from '../components/StockData';
 
 const WATCHLIST_KEY = '@watchlist';
 
