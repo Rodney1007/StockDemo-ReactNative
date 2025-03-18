@@ -11,6 +11,7 @@ import StockItem from '../components/StockItem';
 import RemoveFromWatchListDialog from '../components/RemoveFromWatchListDialog';
 import watchListService from '../services/WatchListService';
 import { StockData } from '../components/StockData';
+import { Colors } from '../constants/Colors';
 
 const WatchListScreen = () => {
   const [watchlist, setWatchlist] = useState<StockData[]>([]);
@@ -59,6 +60,7 @@ const WatchListScreen = () => {
             />
           )}
           keyExtractor={item => item.id}
+          contentContainerStyle={styles.listContent}
         />
       </View>
 
@@ -77,11 +79,23 @@ const WatchListScreen = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#0A0A0A',
+    backgroundColor: Colors.background.primary,
   },
   content: {
     flex: 1,
-    paddingTop: 16,
+  },
+  listContent: {
+    paddingTop: 12,
+    paddingHorizontal: 16,
+  },
+  emptyContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  emptyText: {
+    color: Colors.text.tertiary,
+    fontSize: 16,
   },
 });
 
