@@ -7,6 +7,7 @@ import {
   StatusBar,
 } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
+import Colors from '../constants/Colors';
 
 interface HeaderProps {
   title: string;
@@ -29,9 +30,11 @@ const Header: React.FC<HeaderProps> = ({
       />
       <View style={styles.header}>
         <Text style={styles.headerTitle}>{title}</Text>
-        <View style={styles.rightSection}>
-          {rightComponent}
-        </View>
+        {rightComponent && (
+          <View style={styles.rightSection}>
+            {rightComponent}
+          </View>
+        )}
       </View>
       <View style={styles.headerGlow} />
     </LinearGradient>

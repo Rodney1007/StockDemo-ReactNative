@@ -2,6 +2,7 @@ import React, { useCallback } from 'react';
 import ConfirmDialog from './ConfirmDialog';
 import { StockData } from './StockData';
 import watchListService from '../services/WatchListService';
+import StocksScreen from '../screens/StocksScreen';
 
 interface AddToWatchListDialogProps {
   visible: boolean;

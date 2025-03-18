@@ -5,7 +5,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
 import WatchList from '../screens/WatchList';
-import StockList from '../screens/StockList';
+import StocksScreen from '../screens/StocksScreen';
 import News from '../screens/News';
 const Tab = createBottomTabNavigator();
 
@@ -34,8 +34,8 @@ const TabNavigator = () => {
         }}
       >
         <Tab.Screen
-          name="StockList"
-          component={StockList}
+          name="Stocks"
+          component={StocksScreen}
           options={{
             tabBarLabel: '股票',
             tabBarIcon: ({ color }) => (

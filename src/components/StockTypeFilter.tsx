@@ -7,6 +7,8 @@ import {
   Modal,
   FlatList,
 } from 'react-native';
+import StocksScreen from '../screens/StocksScreen';
+import Colors from '../constants/Colors';
 
 // 先定義常數
 const STOCK_TYPES = [
@@ -129,44 +131,54 @@ class StockTypeFilter extends React.Component<StockTypeFilterProps, StockTypeFil
 
 const styles = StyleSheet.create({
   container: {
+    alignItems: 'flex-end',
   },
   button: {
-    backgroundColor: '#333333',
-    padding: 8,
-    borderRadius: 8,
+    backgroundColor: Colors.background.tertiary,
+    paddingHorizontal: 12,
+    paddingVertical: 6,
+    borderRadius: 6,
     minWidth: 80,
+    borderWidth: 1,
+    borderColor: Colors.primary,
   },
   buttonText: {
-    color: '#FFFFFF',
+    color: Colors.primary,
     fontSize: 14,
+    fontWeight: '600',
     textAlign: 'center',
   },
   modalOverlay: {
     flex: 1,
-    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    backgroundColor: 'rgba(0, 0, 0, 0.7)',
     justifyContent: 'center',
     alignItems: 'center',
   },
   modalContent: {
-    backgroundColor: '#1E1E1E',
+    backgroundColor: Colors.background.secondary,
     borderRadius: 12,
-    padding: 8,
+    padding: 12,
     width: '80%',
     maxHeight: '80%',
+    borderWidth: 1,
+    borderColor: Colors.border.primary,
   },
   typeItem: {
     padding: 12,
     borderRadius: 8,
+    marginVertical: 2,
   },
   selectedItem: {
-    backgroundColor: '#333333',
+    backgroundColor: Colors.background.tertiary,
+    borderWidth: 1,
+    borderColor: Colors.primary,
   },
   typeText: {
-    color: '#FFFFFF',
+    color: Colors.text.primary,
     fontSize: 16,
   },
   selectedText: {
-    color: '#FFFFFF',
+    color: Colors.primary,
     fontWeight: '600',
   },
 });
