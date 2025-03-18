@@ -4,15 +4,9 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { NavigationContainer } from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
-import WatchList from '../screens/WatchList.tsx';
-import StockList from '../screens/StockList.tsx';
-import News from '../screens/News.tsx';
-
-type TabIconProps = {
-  color: string;
-  size: number;
-};
-
+import WatchList from '../screens/WatchList';
+import StockList from '../screens/StockList';
+import News from '../screens/News';
 const Tab = createBottomTabNavigator();
 
 const TabNavigator = () => {
@@ -27,8 +21,8 @@ const TabNavigator = () => {
             height: Platform.OS === 'android' ? 80 : 60,
             paddingBottom: Platform.OS === 'android' ? 16 : 8,
           },
-          tabBarActiveTintColor: '#FFFFFF',
-          tabBarInactiveTintColor: '#666666',
+          tabBarActiveTintColor: '#4CAF50',
+          tabBarInactiveTintColor: '#888888',
         }}
       >
         <Tab.Screen
@@ -36,8 +30,8 @@ const TabNavigator = () => {
           component={StockList}
           options={{
             tabBarLabel: '股票',
-            tabBarIcon: ({ color, size }: TabIconProps) => (
-              <Icon name="trending-up" size={size} color={color} />
+            tabBarIcon: ({ color }) => (
+              <Icon name="chart-line" size={24} color={color} />
             ),
           }}
         />
@@ -46,8 +40,8 @@ const TabNavigator = () => {
           component={WatchList}
           options={{
             tabBarLabel: '自選',
-            tabBarIcon: ({ color, size }: TabIconProps) => (
-              <Icon name="star" size={size} color={color} />
+            tabBarIcon: ({ color }) => (
+              <Icon name="star" size={24} color={color} />
             ),
           }}
         />
@@ -56,8 +50,8 @@ const TabNavigator = () => {
           component={News}
           options={{
             tabBarLabel: '新聞',
-            tabBarIcon: ({ color, size }: TabIconProps) => (
-              <Icon name="article" size={size} color={color} />
+            tabBarIcon: ({ color }) => (
+              <Icon name="newspaper" size={24} color={color} />
             ),
           }}
         />
