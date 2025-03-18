@@ -7,7 +7,6 @@ import {
   StatusBar,
 } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
-import Colors from '../constants/Colors';
 
 interface HeaderProps {
   title: string;

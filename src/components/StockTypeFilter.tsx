@@ -7,7 +7,6 @@ import {
   Modal,
   FlatList,
 } from 'react-native';
-import StocksScreen from '../screens/StocksScreen';
 import Colors from '../constants/Colors';
 
 // 先定義常數
@@ -22,7 +21,7 @@ const STOCK_TYPES = [
 ] as const;
 
 // 從常數推導出類型
-export type StockType = typeof STOCK_TYPES[number];
+export type StockType = (typeof STOCK_TYPES)[number];
 
 // 定義介面
 interface StockTypeFilterProps {
@@ -54,7 +53,10 @@ export const getStockType = (symbol: string): StockType => {
   return '其他';
 };
 
-class StockTypeFilter extends React.Component<StockTypeFilterProps, StockTypeFilterState> {
+class StockTypeFilter extends React.Component<
+  StockTypeFilterProps,
+  StockTypeFilterState
+> {
   constructor(props: StockTypeFilterProps) {
     super(props);
     this.state = {
@@ -63,7 +65,7 @@ class StockTypeFilter extends React.Component<StockTypeFilterProps, StockTypeFil
   }
 
   private setModalVisible = (visible: boolean) => {
-    this.setState({ modalVisible: visible });
+    this.setState({modalVisible: visible});
   };
 
   private handleTypeSelect = (type: StockType) => {
@@ -71,20 +73,17 @@ class StockTypeFilter extends React.Component<StockTypeFilterProps, StockTypeFil
     this.setModalVisible(false);
   };
 
-  private renderTypeItem = ({ item }: { item: StockType }) => {
-    const { selectedType } = this.props;
+  private renderTypeItem = ({item}: {item: StockType}) => {
+    const {selectedType} = this.props;
     return (
       <TouchableOpacity
-        style={[
-          styles.typeItem,
-          selectedType === item && styles.selectedItem,
-        ]}
-        onPress={() => this.handleTypeSelect(item)}
-      >
-        <Text style={[
-          styles.typeText,
-          selectedType === item && styles.selectedText,
-        ]}>
+        style={[styles.typeItem, selectedType === item && styles.selectedItem]}
+        onPress={() => this.handleTypeSelect(item)}>
+        <Text
+          style={[
+            styles.typeText,
+            selectedType === item && styles.selectedText,
+          ]}>
           {item}
         </Text>
       </TouchableOpacity>
@@ -92,15 +91,14 @@ class StockTypeFilter extends React.Component<StockTypeFilterProps, StockTypeFil
   };
 
   render() {
-    const { selectedType } = this.props;
-    const { modalVisible } = this.state;
+    const {selectedType} = this.props;
+    const {modalVisible} = this.state;
 
     return (
       <View style={styles.container}>
         <TouchableOpacity
           style={styles.button}
-          onPress={() => this.setModalVisible(true)}
-        >
+          onPress={() => this.setModalVisible(true)}>
           <Text style={styles.buttonText}>{selectedType}</Text>
         </TouchableOpacity>
 
@@ -108,17 +106,15 @@ class StockTypeFilter extends React.Component<StockTypeFilterProps, StockTypeFil
           visible={modalVisible}
           transparent={true}
           animationType="fade"
-          onRequestClose={() => this.setModalVisible(false)}
-        >
+          onRequestClose={() => this.setModalVisible(false)}>
           <TouchableOpacity
             style={styles.modalOverlay}
             activeOpacity={1}
-            onPress={() => this.setModalVisible(false)}
-          >
+            onPress={() => this.setModalVisible(false)}>
             <View style={styles.modalContent}>
               <FlatList
                 data={STOCK_TYPES}
-                keyExtractor={(item) => item}
+                keyExtractor={item => item}
                 renderItem={this.renderTypeItem}
               />
             </View>
@@ -183,4 +179,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default StockTypeFilter; 
+export default StockTypeFilter;

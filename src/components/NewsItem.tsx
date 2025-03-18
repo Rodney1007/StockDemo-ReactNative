@@ -1,24 +1,18 @@
 import React from 'react';
-import {
-  View,
-  Text,
-  TouchableOpacity,
-  StyleSheet,
-} from 'react-native';
+import {View, Text, TouchableOpacity, StyleSheet} from 'react-native';
 import Colors from '../constants/Colors';
-import { NewsItem as NewsItemType } from '../services/NewsService';
+import {NewsItem as NewsItemType} from '../services/NewsService';
 
 interface NewsItemProps {
   item: NewsItemType;
   onPress: (url: string) => void;
 }
 
-const NewsItem = ({ item, onPress }: NewsItemProps) => {
+const NewsItem = ({item, onPress}: NewsItemProps) => {
   return (
     <TouchableOpacity
       style={styles.newsItem}
-      onPress={() => onPress(item.link)}
-    >
+      onPress={() => onPress(item.link)}>
       <View style={styles.newsHeader}>
         <View style={styles.stockTag}>
           <Text style={styles.stockTagText}>{item.stockName}</Text>
@@ -67,7 +61,7 @@ const styles = StyleSheet.create({
     fontSize: 12,
     fontWeight: '600',
     textShadowColor: 'rgba(0, 0, 0, 0.25)',
-    textShadowOffset: { width: 0, height: 1 },
+    textShadowOffset: {width: 0, height: 1},
     textShadowRadius: 2,
   },
   newsDate: {
@@ -92,4 +86,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default NewsItem; 
+export default NewsItem;
