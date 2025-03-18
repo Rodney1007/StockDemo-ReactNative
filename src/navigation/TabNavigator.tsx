@@ -21,7 +21,7 @@ const TabNavigator = () => {
             height: Platform.OS === 'android' ? 80 : 60,
             paddingBottom: Platform.OS === 'android' ? 16 : 8,
           },
-          tabBarActiveTintColor: '#4CAF50',
+          tabBarActiveTintColor: '#D4AF37',
           tabBarInactiveTintColor: '#888888',
           tabBarLabelStyle: {
             fontSize: 14,

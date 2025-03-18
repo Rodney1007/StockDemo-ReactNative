@@ -130,10 +130,11 @@ const styles = StyleSheet.create({
     marginBottom: 8,
   },
   stockTag: {
-    backgroundColor: '#2196F3',
+    backgroundColor: '#2C2416',
     paddingHorizontal: 8,
     paddingVertical: 4,
     borderRadius: 4,
+    borderColor: '#D4AF37', 
     shadowColor: '#000',
     shadowOffset: {
       width: 0,
@@ -144,7 +145,7 @@ const styles = StyleSheet.create({
     elevation: 2,
   },
   stockTagText: {
-    color: '#FFFFFF',
+    color: '#D4AF37',
     fontSize: 12,
     fontWeight: '600',
     textShadowColor: 'rgba(0, 0, 0, 0.25)',
