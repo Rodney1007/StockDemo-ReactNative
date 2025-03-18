@@ -39,7 +39,7 @@ const TabNavigator = () => {
           options={{
             tabBarLabel: '股票',
             tabBarIcon: ({ color }) => (
-              <Icon name="chart-line" size={24} color={color} />
+              <Icon name="show-chart" size={24} color={color} />
             ),
           }}
         />
