@@ -6,6 +6,7 @@ export interface NewsItem {
   source: string;
   publishDate: string;
   snippet: string;
+  stockName: string;
 }
 
 interface NewsApiArticle {
@@ -75,6 +76,7 @@ class NewsService {
         source: article.source.name,
         publishDate: new Date(article.publishedAt).toLocaleDateString('zh-TW'),
         snippet: article.description || '無摘要',
+        stockName: stockName,
       }));
     } catch (error) {
       console.error('抓取新聞時發生錯誤:', error);

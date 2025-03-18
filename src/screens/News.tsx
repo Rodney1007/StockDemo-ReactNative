@@ -68,7 +68,12 @@ const News = () => {
       style={styles.newsItem}
       onPress={() => handleNewsPress(item.link)}
     >
-      <Text style={styles.newsDate}>{item.publishDate}</Text>
+      <View style={styles.newsHeader}>
+        <View style={styles.stockTag}>
+          <Text style={styles.stockTagText}>{item.stockName}</Text>
+        </View>
+        <Text style={styles.newsDate}>{item.publishDate}</Text>
+      </View>
       <Text style={styles.newsTitle}>{item.title}</Text>
       <Text style={styles.newsSource}>{item.source}</Text>
       <Text style={styles.newsSnippet} numberOfLines={2}>
@@ -118,10 +123,37 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     marginBottom: 12,
   },
+  newsHeader: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginBottom: 8,
+  },
+  stockTag: {
+    backgroundColor: '#2196F3',
+    paddingHorizontal: 8,
+    paddingVertical: 4,
+    borderRadius: 4,
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 1,
+    },
+    shadowOpacity: 0.2,
+    shadowRadius: 1.41,
+    elevation: 2,
+  },
+  stockTagText: {
+    color: '#FFFFFF',
+    fontSize: 12,
+    fontWeight: '600',
+    textShadowColor: 'rgba(0, 0, 0, 0.25)',
+    textShadowOffset: { width: 0, height: 1 },
+    textShadowRadius: 2,
+  },
   newsDate: {
     color: '#888888',
     fontSize: 12,
-    marginBottom: 4,
   },
   newsTitle: {
     color: '#FFFFFF',
