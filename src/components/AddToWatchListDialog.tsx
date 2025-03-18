@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { useCallback } from 'react';
 import ConfirmDialog from './ConfirmDialog';
 import { StockData } from './StockData';
 import watchListService from '../services/WatchListService';
@@ -10,29 +10,31 @@ interface AddToWatchListDialogProps {
   onClose: () => void;
 }
 
-class AddToWatchListDialog extends Component<AddToWatchListDialogProps> {
-  handleConfirm = async () => {
-    const { stock, onSuccess, onClose } = this.props;
+const AddToWatchListDialog = ({
+  visible,
+  stock,
+  onSuccess,
+  onClose,
+}: AddToWatchListDialogProps) => {
+  const handleConfirm = useCallback(async () => {
     const success = await watchListService.addToWatchList(stock);
     if (success && onSuccess) {
       onSuccess();
     }
     onClose();
-  };
+  }, [stock, onSuccess, onClose]);
 
-  render() {
-    const { visible, stock, onClose } = this.props;
+  const dialogMessage = `是否將 ${stock.name}(${stock.symbol}) 加入自選股？`;
 
-    return (
-      <ConfirmDialog
-        visible={visible}
-        title="加入自選"
-        message={`是否將 ${stock.name}(${stock.symbol}) 加入自選股？`}
-        onConfirm={this.handleConfirm}
-        onCancel={onClose}
-      />
-    );
-  }
-}
+  return (
+    <ConfirmDialog
+      visible={visible}
+      title="加入自選"
+      message={dialogMessage}
+      onConfirm={handleConfirm}
+      onCancel={onClose}
+    />
+  );
+};
 
 export default AddToWatchListDialog;

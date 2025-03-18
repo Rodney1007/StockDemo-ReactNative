@@ -10,11 +10,14 @@ import { StockData } from '../components/StockData.ts';
 import Header from '../components/Header.tsx';
 import stockService from '../services/StockService.ts';
 import StockTypeFilter, { StockType, getStockType } from '../components/StockTypeFilter.tsx';
+import AddToWatchListDialog from '../components/AddToWatchListDialog.tsx';
 
 const StockList = () => {
   const [stocks, setStocks] = useState<StockData[]>([]);
   const [selectedType, setSelectedType] = useState<StockType>('個股');
   const [loading, setLoading] = useState(true);
+  const [selectedStock, setSelectedStock] = useState<StockData | null>(null);
+  const [showDialog, setShowDialog] = useState(false);
 
   const loadStockData = useCallback(async () => {
     try {
@@ -29,12 +32,30 @@ const StockList = () => {
   }, []);
 
   useEffect(() => {
-    loadStockData();
+    loadStockData().finally();
   }, [loadStockData]);
 
   const filteredStocks = useMemo(() => {
     return stocks.filter(stock => getStockType(stock.symbol) === selectedType);
   }, [stocks, selectedType]);
+
+  const handleStockPress = useCallback((symbol: string) => {
+    const stock = stocks.find(s => s.symbol === symbol);
+    if (stock) {
+      setSelectedStock(stock);
+      setShowDialog(true);
+    }
+  }, [stocks]);
+
+  const handleDialogClose = () => {
+    setShowDialog(false);
+    setSelectedStock(null);
+  };
+
+  const handleAddSuccess = async () => {
+    await loadStockData();
+    handleDialogClose();
+  };
 
   return (
     <SafeAreaView style={styles.container}>
@@ -50,12 +71,26 @@ const StockList = () => {
       <View style={styles.content}>
         <FlatList
           data={filteredStocks}
-          renderItem={({ item }) => <StockItem stock={item} />}
+          renderItem={({ item }) => (
+            <StockItem
+              stock={item}
+              onPress={handleStockPress}
+            />
+          )}
           keyExtractor={item => item.id}
           refreshing={loading}
           onRefresh={loadStockData}
         />
       </View>
+
+      {selectedStock && (
+        <AddToWatchListDialog
+          visible={showDialog}
+          stock={selectedStock}
+          onSuccess={handleAddSuccess}
+          onClose={handleDialogClose}
+        />
+      )}
     </SafeAreaView>
   );
 };

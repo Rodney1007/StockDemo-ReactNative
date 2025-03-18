@@ -21,7 +21,7 @@ const WatchList = () => {
 
   useFocusEffect(
     useCallback(() => {
-      loadWatchList();
+      loadWatchList().finally();
     }, [loadWatchList])
   );
 

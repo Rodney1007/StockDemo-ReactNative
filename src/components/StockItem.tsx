@@ -1,143 +1,117 @@
-import React, { Component } from 'react';
+import React from 'react';
 import {
   View,
   Text,
   TouchableOpacity,
   StyleSheet,
 } from 'react-native';
-import { StockData } from './StockData.ts';
-import FontUtils from '../utils/FontUtils.ts';
+import { StockData } from './StockData';
+import FontUtils from '../utils/FontUtils';
 import PriceColorUtils from '../utils/PriceColorUtils';
 import VolumeUtils from '../utils/VolumeUtils';
-import AddToWatchListDialog from './AddToWatchListDialog';
 
 interface StockItemProps {
   stock: StockData;
-  onAddToWatchList?: () => void;
+  onPress?: (symbol: string) => void;
 }
 
-interface StockItemState {
-  showDialog: boolean;
-}
-
-class StockItem extends Component<StockItemProps, StockItemState> {
-  state = {
-    showDialog: false,
+const StockItem: React.FC<StockItemProps> = ({ stock, onPress }) => {
+  const handlePress = () => {
+    onPress?.(stock.symbol);
   };
 
-  handlePress = () => {
-    this.setState({ showDialog: true });
-  };
+  const volumeInfo = VolumeUtils.formatVolume(stock.tradeVolume);
 
-  handleDialogClose = () => {
-    this.setState({ showDialog: false });
-  };
+  return (
+    <TouchableOpacity style={styles.stockItem} onPress={handlePress}>
+      <View style={styles.container}>
+        {/* 左側區塊：股票名稱和代號 */}
+        <View style={styles.leftSection}>
+          <Text style={[
+            styles.name,
+            { fontSize: FontUtils.calculateStockNameFontSize(stock.name) }
+          ]}>
+            {stock.name}
+          </Text>
+          <Text style={styles.symbol}>{stock.symbol}</Text>
+        </View>
 
-  render() {
-    const { stock, onAddToWatchList } = this.props;
-    const { showDialog } = this.state;
-    const volumeInfo = VolumeUtils.formatVolume(stock.tradeVolume);
+        {/* 收盤價和交易量區塊 */}
+        <View style={styles.priceSection}>
+          <Text style={[
+            styles.closePrice,
+            { color: PriceColorUtils.getPriceChangeColor(stock.price, stock.open) },
+          ]}>
+            {stock.price}
+          </Text>
+          <Text style={[
+            styles.volume,
+            volumeInfo.isShares && styles.shareVolume,
+            styles.volumeText,
+          ]}>
+            {volumeInfo.text}
+          </Text>
+        </View>
 
-    return (
-      <>
-        <TouchableOpacity style={styles.stockItem} onPress={this.handlePress}>
-          <View style={styles.container}>
-            {/* 左側區塊：股票名稱和代號 */}
-            <View style={styles.leftSection}>
+        {/* 漲跌區塊 */}
+        <View style={styles.changeSection}>
+          <Text style={[
+            styles.change,
+            { color: PriceColorUtils.getPriceChangeColor(stock.price, stock.reference) },
+          ]}>
+            {stock.change}
+          </Text>
+          <Text style={[
+            styles.changePercent,
+            { color: PriceColorUtils.getPriceChangeColor(stock.price, stock.reference) },
+          ]}>
+            {stock.changePercent}%
+          </Text>
+        </View>
+
+        {/* 合併的資訊區塊 */}
+        <View style={styles.gridSection}>
+          <View style={styles.gridRow}>
+            <View style={styles.gridItem}>
+              <Text style={styles.label}>開：</Text>
               <Text style={[
-                styles.name,
-                { fontSize: FontUtils.calculateStockNameFontSize(stock.name) }
+                styles.value,
+                { color: PriceColorUtils.getPriceChangeColor(stock.open, stock.reference) },
               ]}>
-                {stock.name}
+                {stock.open}
               </Text>
-              <Text style={styles.symbol}>{stock.symbol}</Text>
             </View>
-
-            {/* 收盤價和交易量區塊 */}
-            <View style={styles.priceSection}>
+            <View style={styles.gridItem}>
+              <Text style={styles.label}>高：</Text>
               <Text style={[
-                styles.closePrice,
-                { color: PriceColorUtils.getPriceChangeColor(stock.price, stock.open) },
+                styles.value,
+                { color: PriceColorUtils.getPriceChangeColor(stock.high, stock.reference) },
               ]}>
-                {stock.price}
+                {stock.high}
               </Text>
-              <Text style={[
-                styles.volume,
-                volumeInfo.isShares && styles.shareVolume,
-                styles.volumeText,
-              ]}>
-                {volumeInfo.text}
-              </Text>
-            </View>
-
-            {/* 漲跌區塊 */}
-            <View style={styles.changeSection}>
-              <Text style={[
-                styles.change,
-                { color: PriceColorUtils.getPriceChangeColor(stock.price, stock.reference) },
-              ]}>
-                {stock.change}
-              </Text>
-              <Text style={[
-                styles.changePercent,
-                { color: PriceColorUtils.getPriceChangeColor(stock.price, stock.reference) },
-              ]}>
-                {stock.changePercent}%
-              </Text>
-            </View>
-
-            {/* 合併的資訊區塊 */}
-            <View style={styles.gridSection}>
-              <View style={styles.gridRow}>
-                <View style={styles.gridItem}>
-                  <Text style={styles.label}>開：</Text>
-                  <Text style={[
-                    styles.value,
-                    { color: PriceColorUtils.getPriceChangeColor(stock.open, stock.reference) },
-                  ]}>
-                    {stock.open}
-                  </Text>
-                </View>
-                <View style={styles.gridItem}>
-                  <Text style={styles.label}>高：</Text>
-                  <Text style={[
-                    styles.value,
-                    { color: PriceColorUtils.getPriceChangeColor(stock.high, stock.reference) },
-                  ]}>
-                    {stock.high}
-                  </Text>
-                </View>
-              </View>
-
-              <View style={styles.gridRow}>
-                <View style={styles.gridItem}>
-                  <Text style={styles.label}>參：</Text>
-                  <Text style={styles.value}>{stock.reference}</Text>
-                </View>
-                <View style={styles.gridItem}>
-                  <Text style={styles.label}>低：</Text>
-                  <Text style={[
-                    styles.value,
-                    { color: PriceColorUtils.getPriceChangeColor(stock.low, stock.reference) },
-                  ]}>
-                    {stock.low}
-                  </Text>
-                </View>
-              </View>
             </View>
           </View>
-        </TouchableOpacity>
 
-        <AddToWatchListDialog
-          visible={showDialog}
-          stock={stock}
-          onSuccess={onAddToWatchList}
-          onClose={this.handleDialogClose}
-        />
-      </>
-    );
-  }
-}
+          <View style={styles.gridRow}>
+            <View style={styles.gridItem}>
+              <Text style={styles.label}>參：</Text>
+              <Text style={styles.value}>{stock.reference}</Text>
+            </View>
+            <View style={styles.gridItem}>
+              <Text style={styles.label}>低：</Text>
+              <Text style={[
+                styles.value,
+                { color: PriceColorUtils.getPriceChangeColor(stock.low, stock.reference) },
+              ]}>
+                {stock.low}
+              </Text>
+            </View>
+          </View>
+        </View>
+      </View>
+    </TouchableOpacity>
+  );
+};
 
 const styles = StyleSheet.create({
   stockItem: {
@@ -157,6 +131,13 @@ const styles = StyleSheet.create({
     flex:2.5,
     height: 44,  // 固定高度為名稱和代號的總高度
   },
+  rightSection: {
+    flex: 1.5,
+    height: 44,
+    justifyContent: 'space-between',
+    alignItems: 'flex-end',
+    paddingRight: 8,
+  },
   name: {
     fontWeight: '600',
     color: '#FFFFFF',
@@ -168,14 +149,7 @@ const styles = StyleSheet.create({
     color: '#AAAAAA',           // 淺灰色文字
     lineHeight: 16,
   },
-  priceSection: {
-    flex: 1.5,
-    height: 44,
-    justifyContent: 'space-between',
-    alignItems: 'flex-end',
-    paddingRight: 8,
-  },
-  closePrice: {
+  price: {
     fontSize: 24,
     fontWeight: '600',
     color: '#FFFFFF',
@@ -227,6 +201,19 @@ const styles = StyleSheet.create({
   },
   shareVolume: {
     color: '#888888',
+  },
+  priceSection: {
+    flex: 1.5,
+    height: 44,
+    justifyContent: 'space-between',
+    alignItems: 'flex-end',
+    paddingRight: 8,
+  },
+  closePrice: {
+    fontSize: 24,
+    fontWeight: '600',
+    color: '#FFFFFF',
+    textAlign: 'right',
   },
 });
 
