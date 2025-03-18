@@ -1,4 +1,4 @@
-import {StockData} from '../components/StockData.ts';
+import { StockData } from '../screens/stocklist/StockData';
 import TaiwanStockExchangeAPI from './TaiwanStockExchangeAPI';
 
 interface TWStockData {
@@ -17,15 +17,15 @@ interface TWStockData {
 interface TWStockMetrics {
   Code: string;
   Name: string;
-  PER: string; // 本益比
-  DividendYield: string; // 殖利率
-  PBR: string; // 股價淨值比
+  PER: string;      // 本益比
+  DividendYield: string;  // 殖利率
+  PBR: string;      // 股價淨值比
 }
 
 interface TWStockAverage {
   Code: string;
   Name: string;
-  MonthlyAvgPrice: string; // 月均價
+  MonthlyAvgPrice: string;  // 月均價
 }
 
 export class StockService {
@@ -61,11 +61,9 @@ export class StockService {
 
   private formatPrice(price: string): string {
     const numPrice = parseFloat(price);
-
-    if (isNaN(numPrice)) {
-      return '-';
-    }
-
+    
+    if (isNaN(numPrice)) return '-';
+    
     if (numPrice >= 500) {
       return Math.round(numPrice).toString();
     } else if (numPrice >= 100) {
@@ -78,16 +76,12 @@ export class StockService {
   private formatPercentage(change: string, price: string): string {
     const numChange = parseFloat(change);
     const numPrice = parseFloat(price);
-
-    if (isNaN(numChange) || isNaN(numPrice)) {
-      return '-';
-    }
-
+    
+    if (isNaN(numChange) || isNaN(numPrice)) return '-';
+    
     const percentage = (numChange / numPrice) * 100;
-    if (percentage === 0) {
-      return '0.00';
-    } // 當為 0 時不加符號
-
+    if (percentage === 0) return '0.00';  // 當為 0 時不加符號
+    
     const sign = percentage < 0 ? '-' : '+';
     return `${sign}${Math.abs(percentage).toFixed(2)}`;
   }
@@ -100,16 +94,18 @@ export class StockService {
         this.fetchMonthlyAverages(),
       ]);
 
-      const metricsMap = new Map(metricsData.map(item => [item.Code, item]));
+      const metricsMap = new Map(
+        metricsData.map(item => [item.Code, item])
+      );
 
-      const averageMap = new Map(averageData.map(item => [item.Code, item]));
+      const averageMap = new Map(
+        averageData.map(item => [item.Code, item])
+      );
 
       return priceData.map((stock, index): StockData => {
         const metrics = metricsMap.get(stock.Code);
         const average = averageMap.get(stock.Code);
-        const previousClose = (
-          parseFloat(stock.ClosingPrice) - parseFloat(stock.Change)
-        ).toString();
+        const previousClose = (parseFloat(stock.ClosingPrice) - parseFloat(stock.Change)).toString();
 
         return {
           id: index.toString(),
@@ -117,10 +113,7 @@ export class StockService {
           name: stock.Name,
           price: this.formatPrice(stock.ClosingPrice),
           change: this.formatPrice(stock.Change),
-          changePercent: this.formatPercentage(
-            stock.Change,
-            stock.ClosingPrice,
-          ),
+          changePercent: this.formatPercentage(stock.Change, stock.ClosingPrice),
           volume: stock.TradeVolume,
           high: this.formatPrice(stock.HighestPrice),
           low: this.formatPrice(stock.LowestPrice),
