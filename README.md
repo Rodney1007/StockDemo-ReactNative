@@ -1,4 +1,9 @@
 This is a new [**React Native**](https://reactnative.dev) project, bootstrapped using [`@react-native-community/cli`](https://github.com/react-native-community/cli).
+# 功能介紹
+* 從台灣證券交易所API取得證券商品資訊
+* 篩選證券商品顯示方式
+* 將想要關注的證券商品加入自選股中
+* 從自選股中刪除證券商品
 
 # Getting Started
 
