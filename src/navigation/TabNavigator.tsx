@@ -4,7 +4,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { NavigationContainer } from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
-import WatchList from '../screens/WatchList';
+import WatchListScreen from '../screens/WatchListScreen.tsx';
 import StocksScreen from '../screens/StocksScreen';
 import NewsScreen from '../screens/NewsScreen.tsx';
 const Tab = createBottomTabNavigator();
@@ -45,7 +45,7 @@ const TabNavigator = () => {
         />
         <Tab.Screen
           name="WatchList"
-          component={WatchList}
+          component={WatchListScreen}
           options={{
             tabBarLabel: '自選',
             tabBarIcon: ({ color }) => (

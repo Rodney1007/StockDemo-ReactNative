@@ -12,7 +12,7 @@ import RemoveFromWatchListDialog from '../components/RemoveFromWatchListDialog';
 import watchListService from '../services/WatchListService';
 import { StockData } from '../components/StockData';
 
-const WatchList = () => {
+const WatchListScreen = () => {
   const [watchlist, setWatchlist] = useState<StockData[]>([]);
   const [selectedStock, setSelectedStock] = useState<StockData | null>(null);
   const [showDialog, setShowDialog] = useState(false);
@@ -85,4 +85,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default WatchList;
+export default WatchListScreen;
