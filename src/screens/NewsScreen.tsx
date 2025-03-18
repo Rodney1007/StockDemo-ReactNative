@@ -15,7 +15,7 @@ import watchListService from '../services/WatchListService';
 import newsService, { NewsItem as NewsItemType } from '../services/NewsService';
 import Colors from '../constants/Colors';
 
-const News = () => {
+const NewsScreen = () => {
   const [news, setNews] = useState<NewsItemType[]>([]);
   const [loading, setLoading] = useState(false);
 
@@ -113,4 +113,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default News;
+export default NewsScreen;

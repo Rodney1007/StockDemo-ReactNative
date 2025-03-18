@@ -6,7 +6,7 @@ import Icon from 'react-native-vector-icons/MaterialIcons';
 
 import WatchList from '../screens/WatchList';
 import StocksScreen from '../screens/StocksScreen';
-import News from '../screens/News';
+import NewsScreen from '../screens/NewsScreen.tsx';
 const Tab = createBottomTabNavigator();
 
 const TabNavigator = () => {
@@ -55,7 +55,7 @@ const TabNavigator = () => {
         />
         <Tab.Screen
           name="News"
-          component={News}
+          component={NewsScreen}
           options={{
             tabBarLabel: '新聞',
             tabBarIcon: ({ color }) => (
